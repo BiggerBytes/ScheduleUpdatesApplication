@@ -14,7 +14,7 @@ public class ScheduleChange implements Serializable {
     private String teacherName;
     private Integer dayInMonth;
 
-    public ScheduleChange(Integer dayInMonth, Integer hour, String teacherName) {
+    protected ScheduleChange(Integer dayInMonth, Integer hour, String teacherName) {
         this.dayInMonth = dayInMonth;
         this.hour = hour;
         this.teacherName = teacherName;
