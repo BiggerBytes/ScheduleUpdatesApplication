@@ -1,3 +1,31 @@
 <resources>
 	<string name="app_name">De-Shalit Updates</string>
+	<string name="y1">י' 1</string>
+	<string name="y2">י' 2</string>
+	<string name="y3">י' 3</string>
+	<string name="y4">י' 4</string>
+	<string name="y5">י' 5</string>
+	<string name="y6">י' 6</string>
+	<string name="y7">י' 7</string>
+	<string name="y8">י' 8</string>
+	<string name="y9">י' 9</string>
+	<string name="y10">י' 10</string>
+	<string name="ya1">יא' 1</string>
+	<string name="ya2">יא' 2</string>
+	<string name="ya3">יא' 3</string>
+	<string name="ya4">יא' 4</string>
+	<string name="ya5">יא' 5</string>
+	<string name="ya6">יא' 6</string>
+	<string name="ya7">יא' 7</string>
+	<string name="ya8">יא' 8</string>
+	<string name="yb1">יב' 1</string>
+	<string name="yb2">יב' 2</string>
+	<string name="yb3">יב' 3</string>
+	<string name="yb4">יב' 4</string>
+	<string name="yb5">יב' 5</string>
+	<string name="yb6">יב' 6</string>
+	<string name="yb7">יב' 7</string>
+	<string name="yb8">יב' 8</string>
+	<string name="yb9">יב' 9</string>
+
 </resources>
