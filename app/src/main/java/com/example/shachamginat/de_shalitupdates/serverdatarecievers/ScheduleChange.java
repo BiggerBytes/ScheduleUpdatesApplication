@@ -11,13 +11,16 @@ import java.io.Serializable;
 public class ScheduleChange implements Serializable {
 
     private Integer hour;
-    private String teacherName;
     private Integer dayInMonth;
+    private String teacherName;
 
-    protected ScheduleChange(Integer dayInMonth, Integer hour, String teacherName) {
+    private ChangeType type;
+
+    protected ScheduleChange(Integer dayInMonth, Integer hour, String teacherName, ChangeType type) {
         this.dayInMonth = dayInMonth;
         this.hour = hour;
         this.teacherName = teacherName;
+        this.type = type;
     }
 
     public Integer getDayInMonth() {
@@ -44,12 +47,30 @@ public class ScheduleChange implements Serializable {
         this.teacherName = teacherName;
     }
 
+
+    public ChangeType getType() {
+        return type;
+    }
+
+    public void setType(ChangeType type) {
+        this.type = type;
+    }
+
     public void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }
 
     public void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+    }
+
+    /**
+     * describes the type of a change:
+     * either lesson cancelled
+     * or a sub teacher is placed
+     */
+    protected enum ChangeType {
+        CANCELLED, SUB
     }
 
 }
