@@ -23,7 +23,7 @@ public class SchoolDataConnection {
         this.PORT = PORT;
     }
 
-    public ArrayList<ScheduleChange> orderScheduleChange(int classID) throws UnknownHostException, IOException, ClassNotFoundException{
+    public ArrayList<ScheduleChange> orderScheduleChange(int classID) throws UnknownHostException, IOException, ClassNotFoundException {
         //  Opening socket to server
         Socket socket = new Socket(ADDRESS, PORT);
 
