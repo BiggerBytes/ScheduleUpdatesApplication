@@ -16,7 +16,7 @@ public class ScheduleChange implements Serializable {
 
     private ChangeType type;
 
-    protected ScheduleChange(Integer dayInMonth, Integer hour, String teacherName, ChangeType type) {
+    public ScheduleChange(Integer dayInMonth, Integer hour, String teacherName, ChangeType type) {
         this.dayInMonth = dayInMonth;
         this.hour = hour;
         this.teacherName = teacherName;
@@ -69,7 +69,7 @@ public class ScheduleChange implements Serializable {
      * either lesson cancelled
      * or a sub teacher is placed
      */
-    protected enum ChangeType {
+    public enum ChangeType {
         CANCELLED, SUB
     }
 
