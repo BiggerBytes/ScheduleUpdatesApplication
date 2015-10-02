@@ -59,7 +59,7 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
                 protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException {
                     ObjectStreamClass clazz = super.readClassDescriptor();
                     if (clazz.getName().contains("ScheduleChange"))
-                        return ObjectStreamClass.lookup(ScheduleChange.class);
+                        return ObjectStreamClass.lookup(ArrayList.class);
                     return clazz;
                 }
             };
@@ -68,16 +68,25 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
         }
 
         //  Obtaining the ScheduleChange objects
-        Object abst_data = null;
+        Object abstData = null;
+        ArrayList<ScheduleChange> data = null;
+////        data = (ArrayList<ScheduleChange>) abst_data;
         try {
-            abst_data = in.readObject();
+//            data = (ArrayList<ScheduleChange>) in.readObject();
+            if (in.available() > 0) {
+                abstData = in.readObject();
+                Log.v(TAG, "available it is");
+
+                if (abstData instanceof ArrayList)
+                    data = (ArrayList<ScheduleChange>) abstData;
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayList<ScheduleChange> data = null;
-        data = (ArrayList<ScheduleChange>) abst_data;
+//        ArrayList<ScheduleChange> data = null;
+//        data = (ArrayList<ScheduleChange>) abst_data;
 
 
         //  Closing the socket and streams
