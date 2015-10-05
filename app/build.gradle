@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.example.shachamginat.de_shalitupdates"
+        applicationId "com.example.shachamginat.com.olympicat.scheduleupdates"
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
