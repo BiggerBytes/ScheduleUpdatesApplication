@@ -39,23 +39,23 @@ public class MainActivity extends AppCompatActivity {
         rvChanges.setLayoutManager(llm);
 
         // init changes list
-//        changes = new ArrayList<>();
-//        changes.add(new ScheduleChange(27, 2, "הילה כרמי", ScheduleChange.ChangeType.CANCELLED));
-//        changes.add(new ScheduleChange(27, 4, "לאו קירשנבאום", ScheduleChange.ChangeType.CANCELLED));
-//        changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
+        changes = new ArrayList<>();
+        changes.add(new ScheduleChange(27, 2, "הילה כרמי", ScheduleChange.ChangeType.CANCELLED));
+        changes.add(new ScheduleChange(27, 4, "לאו קירשנבאום", ScheduleChange.ChangeType.CANCELLED));
+        changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
 
 //        SchoolDataConnection sdc = new SchoolDataConnection("84.108.62.118", 2556);
-        DataFetcher df = new DataFetcher();
-        Log.v(TAG, "opened sdc");
-
-        try {
-            changes = df.execute(24).get();
-            Log.v(TAG, "ordered schedule change");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+//        DataFetcher df = new DataFetcher();
+//        Log.v(TAG, "opened sdc");
+//
+//        try {
+//            changes = df.execute(24).get();
+//            Log.v(TAG, "ordered schedule change");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
 
         adapter = new ScheduleChangeAdapter(MainActivity.this, changes);
         rvChanges.setAdapter(adapter);

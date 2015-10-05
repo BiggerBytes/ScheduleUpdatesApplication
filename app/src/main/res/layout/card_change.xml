@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_marginTop="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,17 +14,32 @@
             android:id="@+id/tvTeacherName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="שם שם"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvTeacherName"
+            android:layout_marginTop="4dp"
+            android:gravity="right"
+            android:text="24/09/2015"
+            android:textColor="#999999"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvTeacherName"
-            android:layout_marginTop="8dp"
-            android:textColor="#999999"
-            android:textSize="16sp" />
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:text="3"
+            android:textColor="#6f6f6f"
+            android:textSize="32sp" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
