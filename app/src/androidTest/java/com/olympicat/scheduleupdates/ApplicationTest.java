@@ -1,4 +1,4 @@
-package com.example.shachamginat.de_shalitupdates;
+package com.example.shachamginat.scheduleupdates;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.example.shachamginat.de_shalitupdates;
+package com.example.shachamginat.scheduleupdates;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.shachamginat.de_shalitupdates.serverdatarecievers.ScheduleChange;
+import com.example.shachamginat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.util.ArrayList;
 

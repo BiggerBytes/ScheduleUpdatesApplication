@@ -1,4 +1,4 @@
-package com.example.shachamginat.de_shalitupdates.serverdatarecievers;
+package com.olympicat.scheduleupdates.serverdatarecievers;
 
 /**
  * Created by OrenUrbach on 10/2/15.

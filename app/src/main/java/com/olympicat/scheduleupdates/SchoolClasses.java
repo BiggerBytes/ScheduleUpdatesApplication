@@ -1,4 +1,4 @@
-package com.example.shachamginat.de_shalitupdates;
+package com.olympicat.scheduleupdates;
 
 /**
  * Created by shachamginat on 9/28/15.

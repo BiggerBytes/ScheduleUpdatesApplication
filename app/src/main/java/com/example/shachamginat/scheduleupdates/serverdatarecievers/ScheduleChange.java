@@ -1,4 +1,4 @@
-package com.example.shachamginat.de_shalitupdates.serverdatarecievers;
+package com.example.shachamginat.scheduleupdates.serverdatarecievers;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
