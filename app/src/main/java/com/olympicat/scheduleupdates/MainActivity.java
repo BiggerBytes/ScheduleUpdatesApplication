@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.olympicat.scheduleupdate.R;
 import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
-import com.olympicat.scheduleupdate.R;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -40,19 +40,18 @@ public class MainActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvChanges.setLayoutManager(llm);
 
-        // init changes list
+        // locally testing app
         /*
         changes = new ArrayList<>();
         changes.add(new ScheduleChange(27, 2, "הילה כרמי", ScheduleChange.ChangeType.CANCELLED));
         changes.add(new ScheduleChange(27, 4, "לאו קירשנבאום", ScheduleChange.ChangeType.CANCELLED));
         changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
-*/
+        */
         DataFetcher df = new DataFetcher();
-        Log.v(TAG, "opened sdc");
+        Log.v(TAG, "created data fetcher");
 
         try {
             changes = df.execute(24).get();
-
             Log.v(TAG, "ordered schedule change");
         } catch (InterruptedException e) {
             e.printStackTrace();
