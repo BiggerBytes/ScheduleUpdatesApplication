@@ -78,7 +78,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         sb.append(getDayInHebrew(given));
         sb.append(" - ");
 //        sb.append(given.get(Calendar.DAY_OF_MONTH) + "/" + given.get(Calendar.MONTH));
-        sb.append(given);
+        sb.append(given.substring(0, 5));
 
         return sb.toString();
     }
@@ -86,19 +86,22 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
     public String getDayInHebrew(String date) {
         Log.v(TAG, "date: " + date);
         HashMap<Integer, String> hm = new HashMap<>();
-        hm.put(1, "ראשון");
-        hm.put(2, "שני");
-        hm.put(3, "שלישי");
-        hm.put(4, "רביעי");
-        hm.put(5, "חמישי");
-        hm.put(6, "שישי");
+        hm.put(2, "ראשון");
+        hm.put(3, "שני");
+        hm.put(4, "שלישי");
+        hm.put(5, "רביעי");
+        hm.put(6, "חמישי");
+        hm.put(7, "שישי");
         // no saturday because there is no school on saturday
 
-
-        int day = Integer.parseInt(date.substring(0,2));
+        String[] dateArr = date.split("\\.");
+//        int day = Integer.parseInt(date.substring(0,2));
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, day);
-        Log.v(TAG, "day: " + day);
+        c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[0]));
+        c.set(Calendar.MONTH, Integer.parseInt(dateArr[1]));
+        c.set(Calendar.YEAR, Integer.parseInt(dateArr[2]));
+
+        Log.v(TAG, "day of the week: " + c.get(Calendar.DAY_OF_WEEK));
 
         return hm.get(c.get(Calendar.DAY_OF_WEEK));
     }
