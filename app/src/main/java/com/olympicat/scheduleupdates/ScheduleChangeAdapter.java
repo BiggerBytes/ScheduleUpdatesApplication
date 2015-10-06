@@ -42,6 +42,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         ScheduleChangeViewHolder.tvTeacherName.setText(change.getTeacherName());
         ScheduleChangeViewHolder.tvHour.setText("" + change.getHour());
+        ScheduleChangeViewHolder.tvDate.setText("" + change.getDayInMonth());
     }
 
     @Override
@@ -56,12 +57,13 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
 
     public static class ScheduleChangeViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvTeacherName, tvHour;
+        private TextView tvTeacherName, tvHour, tvDate;
 
         public ScheduleChangeViewHolder(View itemView) {
             super(itemView);
             tvTeacherName = (TextView) itemView.findViewById(R.id.tvTeacherName);
             tvHour = (TextView) itemView.findViewById(R.id.tvHours);
+            tvDate = (TextView) itemView.findViewById(R.id.tvDate);
         }
     }
 }

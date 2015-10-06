@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         changes.add(new ScheduleChange(27, 4, "לאו קירשנבאום", ScheduleChange.ChangeType.CANCELLED));
         changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
         */
+
         DataFetcher df = new DataFetcher();
         Log.v(TAG, "created data fetcher");
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Snackbar.make(findViewById(android.R.id.content), changes.size() + " new updates", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
 
         adapter = new ScheduleChangeAdapter(MainActivity.this, changes);
         rvChanges.setAdapter(adapter);
