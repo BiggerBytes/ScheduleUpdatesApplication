@@ -2,6 +2,7 @@ package com.olympicat.scheduleupdates;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,19 +70,21 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
     }
 
 
-    public String formatDate(Calendar given) {
+    public String formatDate(String given) {
         // result will be constructed here
         StringBuffer sb = new StringBuffer();
 
         sb.append("יום ");
-        sb.append(getDayInHebrew(given.get(Calendar.DAY_OF_WEEK)));
+        sb.append(getDayInHebrew(given));
         sb.append(" - ");
-        sb.append(given.get(Calendar.DAY_OF_MONTH) + "/" + given.get(Calendar.MONTH));
+//        sb.append(given.get(Calendar.DAY_OF_MONTH) + "/" + given.get(Calendar.MONTH));
+        sb.append(given);
 
         return sb.toString();
     }
 
-    public String getDayInHebrew(int day) {
+    public String getDayInHebrew(String date) {
+        Log.v(TAG, "date: " + date);
         HashMap<Integer, String> hm = new HashMap<>();
         hm.put(1, "ראשון");
         hm.put(2, "שני");
@@ -91,6 +94,12 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         hm.put(6, "שישי");
         // no saturday because there is no school on saturday
 
-        return hm.get(day);
+
+        int day = Integer.parseInt(date.substring(0,2));
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, day);
+        Log.v(TAG, "day: " + day);
+
+        return hm.get(c.get(Calendar.DAY_OF_WEEK));
     }
 }
