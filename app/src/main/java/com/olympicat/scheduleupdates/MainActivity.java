@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             changes = df.execute(24).get();
+            Log.v(TAG, "" + changes.get(0));
             Log.v(TAG, "ordered schedule change");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
 
-        adapter = new ScheduleChangeAdapter(MainActivity.this, changes);
+        adapter = new ScheduleChangeAdapter(changes);
         rvChanges.setAdapter(adapter);
     }
 

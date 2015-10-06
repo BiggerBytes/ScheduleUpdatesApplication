@@ -11,6 +11,8 @@ import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 import com.olympicat.scheduleupdate.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by OrenUrbach on 10/1/15.
@@ -18,13 +20,11 @@ import java.util.ArrayList;
 public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAdapter.ScheduleChangeViewHolder> {
 
     private ArrayList<ScheduleChange> changes;
-    private Context context;
 
     private final static String TAG = "ScheduleChangeAdapter";
 
-    public ScheduleChangeAdapter(Context context, ArrayList<ScheduleChange> changes) {
+    public ScheduleChangeAdapter(ArrayList<ScheduleChange> changes) {
         this.changes = changes;
-        this.context = context;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         ScheduleChangeViewHolder.tvTeacherName.setText(change.getTeacherName());
         ScheduleChangeViewHolder.tvHour.setText("" + change.getHour());
-        ScheduleChangeViewHolder.tvDate.setText("" + change.getDayInMonth());
+        ScheduleChangeViewHolder.tvDate.setText("" + formatDate(change.getDate()));
     }
 
     @Override
@@ -65,5 +65,31 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
             tvHour = (TextView) itemView.findViewById(R.id.tvHours);
             tvDate = (TextView) itemView.findViewById(R.id.tvDate);
         }
+    }
+
+
+    public String formatDate(Calendar given) {
+        // result will be constructed here
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("יום ");
+        sb.append(getDayInHebrew(given.get(Calendar.DAY_OF_WEEK)));
+        sb.append(" - ");
+        sb.append(given.get(Calendar.DAY_OF_MONTH) + "/" + given.get(Calendar.MONTH));
+
+        return sb.toString();
+    }
+
+    public String getDayInHebrew(int day) {
+        HashMap<Integer, String> hm = new HashMap<>();
+        hm.put(1, "ראשון");
+        hm.put(2, "שני");
+        hm.put(3, "שלישי");
+        hm.put(4, "רביעי");
+        hm.put(5, "חמישי");
+        hm.put(6, "שישי");
+        // no saturday because there is no school on saturday
+
+        return hm.get(day);
     }
 }

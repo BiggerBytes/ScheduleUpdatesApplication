@@ -1,8 +1,10 @@
 package com.olympicat.scheduleupdates.serverdatarecievers;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  *
@@ -11,24 +13,24 @@ import java.io.Serializable;
 public class ScheduleChange implements Serializable {
 
     private Integer hour;
-    private Integer dayInMonth;
+    private Calendar date;
     private String teacherName;
 
     private ChangeType type;
 
-    public ScheduleChange(Integer dayInMonth, Integer hour, String teacherName, ChangeType type) {
-        this.dayInMonth = dayInMonth;
+    public ScheduleChange(Calendar date, Integer hour, String teacherName, ChangeType type) {
+        this.date = date;
         this.hour = hour;
         this.teacherName = teacherName;
         this.type = type;
     }
 
-    public Integer getDayInMonth() {
-        return dayInMonth;
+    public Calendar getDate() {
+        return date;
     }
 
-    public void setDayInMonth(Integer dayInMonth) {
-        this.dayInMonth = dayInMonth;
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
     public Integer getHour() {
@@ -46,7 +48,6 @@ public class ScheduleChange implements Serializable {
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
     }
-
 
     public ChangeType getType() {
         return type;
