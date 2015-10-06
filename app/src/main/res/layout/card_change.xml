@@ -14,7 +14,6 @@
             android:id="@+id/tvTeacherName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="שם שם"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
@@ -26,7 +25,6 @@
             android:layout_below="@+id/tvTeacherName"
             android:layout_marginTop="4dp"
             android:gravity="right"
-            android:text="24/09/2015"
             android:textColor="#999999"
             android:textSize="16sp" />
 
@@ -37,7 +35,6 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:gravity="left"
-            android:text="3"
             android:textColor="#6f6f6f"
             android:textSize="32sp" />
 
