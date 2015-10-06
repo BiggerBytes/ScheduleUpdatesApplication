@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 /**
  * Created by OrenUrbach on 10/1/15.
+ * adapter for schedule changes recyclerview
  */
 public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAdapter.ScheduleChangeViewHolder> {
 
