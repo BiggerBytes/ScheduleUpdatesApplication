@@ -42,7 +42,6 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         ScheduleChangeViewHolder.tvTeacherName.setText(change.getTeacherName());
         ScheduleChangeViewHolder.tvHour.setText("" + change.getHour());
-//        ScheduleChangeViewHolder.tvHour.setText("3");
     }
 
     @Override

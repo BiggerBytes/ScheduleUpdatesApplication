@@ -46,10 +46,9 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
 
             //  Opening the streams and sending the ClassID parameter
             ObjectInputStream in = null;
-            Log.d(TAG, "Something with input stream");
-            Log.d(TAG, "Creating inputstream");
+            Log.d(TAG, "Creating input stream...");
             in = new ObjectInputStream(socket.getInputStream());
-            Log.d(TAG, "Created inputstream");
+            Log.d(TAG, "Created input stream");
 
 
             Log.d(TAG, "in.avilable = " + in.available());
@@ -58,20 +57,15 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
             Object abstData = null;
             ArrayList<ScheduleChange> data = null;
 
-            //   data = (ArrayList<ScheduleChange>) abst_data;
-            Log.d(TAG, "is inputstream closed = " + socket.isInputShutdown());
-//            data = (ArrayList<ScheduleChange>) in.readObject();
+            Log.d(TAG, "is input stream closed = " + socket.isInputShutdown());
             Log.d(TAG, "in.available() = " + in.available());
             abstData = in.readObject();
-            Log.d(TAG, "available it is");
+            Log.d(TAG, "available it is.");
 
             if (abstData instanceof ScheduleChange[]) {
                 data = new ArrayList();
                 data.addAll(Arrays.asList((ScheduleChange[]) abstData));
             }
-//        ArrayList<ScheduleChange> data = null;
-//        data = (ArrayList<ScheduleChange>) abst_data;
-
 
             //  Closing the socket and streams
             socket.close();
