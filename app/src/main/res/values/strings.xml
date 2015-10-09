@@ -1,6 +1,7 @@
 <resources>
 	<string name="app_name">עדכוני מערכת</string>
 	<string name="label_day">יום</string>
+	<string name="no_changes">אין שינויים</string>
 	<!--<string name="y1"></string>-->
 	<!--<string name="y2">י' 2</string>-->
 	<!--<string name="y3">י' 3\</string>-->

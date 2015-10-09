@@ -82,7 +82,11 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
 
             return data;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
+            Log.v(TAG, "array is empty.");
+            e.printStackTrace();
+
+            if (this.listener != null)
+                this.listener.onChangesReceived(new ArrayList<ScheduleChange>());
             return null;
         }
 

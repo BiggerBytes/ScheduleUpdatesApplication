@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.olympicat.scheduleupdate.R;
 import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private ScheduleChangeAdapter adapter;
     private RecyclerView rvChanges;
 
+    private RelativeLayout emptyView;
+
     private final static String TAG = "MainActivity";
 
     @Override
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         // force rtl layout
         forceRtlIfSupported();
 
+        // init empty view
+        emptyView = (RelativeLayout) findViewById(R.id.emptyView);
 
         // init recycler view
         rvChanges = (RecyclerView) findViewById(R.id.rvChanges);
@@ -70,22 +76,39 @@ public class MainActivity extends AppCompatActivity {
         DataFetcher df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
             @Override
             public void onChangesReceived(ArrayList<ScheduleChange> data) {
-                Log.v(TAG, "in: on changes received. data[0]: " + data.get(0).getTeacherName());
                 Log.v(TAG, "d is null: " + (data == null));
-                if (data != null) {
+                if (data != null && data.size() > 0) {
+                    // data is received and there is data
                     Log.v(TAG, "Data is not null");
                     changes.clear();
                     changes.addAll(data);
-                    adapter.notifyDataSetChanged();
-                    Log.v(TAG, "updated adapter");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            Log.v(TAG, "updated adapter");
 
-                    Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
-                } else {
+                            Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else if (data != null) {
                     // empty view
+                    Log.v(TAG, "Showing empty view!");
+                    // needs to be from the ui thread apparently
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            rvChanges.setVisibility(View.GONE);
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
+                    });
+                } else {
+                    // error
                 }
             }
         });
-        df.execute(15);
+        df.execute(10);
         Log.v(TAG, "created data fetcher and started fetching...");
     }
 

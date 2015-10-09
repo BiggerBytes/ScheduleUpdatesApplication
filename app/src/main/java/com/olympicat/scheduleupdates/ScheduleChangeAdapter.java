@@ -78,7 +78,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         sb.append(getDayInHebrew(given));
         sb.append(" - ");
 //        sb.append(given.get(Calendar.DAY_OF_MONTH) + "/" + given.get(Calendar.MONTH));
-        sb.append(given.substring(0, 5).replace("\\.", "\\"));
+        sb.append(given.substring(0, 5).replace("\\.", "g"));
 
         return sb.toString();
     }
