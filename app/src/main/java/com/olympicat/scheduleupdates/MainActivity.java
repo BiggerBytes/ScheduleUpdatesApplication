@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -19,6 +20,7 @@ import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "Data is not null");
                     changes.clear();
                     changes.addAll(data);
+                    removeDuplicates();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -108,8 +111,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        df.execute(10);
+        df.execute(24);
         Log.v(TAG, "created data fetcher and started fetching...");
+    }
+
+    private void removeDuplicates() {
+        Log.v(TAG, "Changes has " + this.changes.size());
+        List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
+
+        for (int i = 0; i < this.changes.size() - 1; ++i) {
+            String hour = "";
+
+            for (int j = i + 1; j < this.changes.size(); ++j) {
+                if (changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName())) {
+                    hour = this.changes.get(i).getHour() + " - " + this.changes.get(j).getHour();
+                    Log.v(TAG, "Added index " + j + " to list");
+                    removeList.add(this.changes.get(j));
+                } else {
+                    break;
+                }
+            }
+
+            this.changes.get(i).setHour(hour);
+        }
+
+        for (int i = 0; i < removeList.size(); ++i) {
+            this.changes.remove(removeList.get(i));
+            Log.v(TAG, "Changes has " + this.changes.size());
+        }
     }
 
     @Override
