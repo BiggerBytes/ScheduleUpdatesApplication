@@ -3,6 +3,7 @@ package com.olympicat.scheduleupdates;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ScheduleChange> changes;
     private ScheduleChangeAdapter adapter;
     private RecyclerView rvChanges;
+    private DataFetcher df;
 
     private RelativeLayout emptyView;
 
@@ -51,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         // if so, continue to loading the data for his class
         sharedPreferences = getSharedPreferences(getString(R.string.sp_school_class_choice), MODE_PRIVATE);
         userClass = sharedPreferences.getInt(getString(R.string.key_school_class_choice), -1);
-//        userClass = -1;
         if (userClass == -1) {
+            Log.v(TAG, "first time huh?");
             // user has not made a choice yet
             // open the dialog
             chooseClassDialog = new ChooseClassDialog();
@@ -62,11 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onFinish(int id) {
                     userClass = id;
                     Log.v(TAG, "got class id: " + id);
+                    loadChanges();
                 }
             });
         } else {
             // user has made a choice
             Log.v(TAG, "Success, choice: " + userClass);
+            loadChanges();
         }
 
         // init empty view
@@ -82,9 +87,59 @@ public class MainActivity extends AppCompatActivity {
         changes = new ArrayList<>();
         adapter = new ScheduleChangeAdapter(changes);
         rvChanges.setAdapter(adapter);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
 
-        DataFetcher df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_change_school_class:
+                chooseClassDialog = new ChooseClassDialog();
+                chooseClassDialog.show(getFragmentManager(), "Choose Class Dialog");
+                chooseClassDialog.setOnDialogFinishListener(new ChooseClassDialog.OnDialogFinishListener() {
+                    @Override
+                    public void onFinish(int id) {
+                        userClass = id;
+                        Log.v(TAG, "got class id: " + id);
+                        loadChanges();
+                    }
+                });
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void forceRtlIfSupported() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
+    }
+
+    private void loadChanges() {
+        initDataFetcher();
+//        if (df != null) {
+            if (userClass != -1) {
+                Log.v(TAG, "AsyncTask status: " + df.getStatus());
+//                if (df.getStatus() != AsyncTask.Status.RUNNING)
+                    df.execute(userClass);
+                Log.v(TAG, "fetching data for class " + userClass + "...");
+            }
+//        } else {
+//
+//            loadChanges();
+//        }
+    }
+
+    private void initDataFetcher() {
+        df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
             @Override
             public void onChangesReceived(ArrayList<ScheduleChange> data) {
                 Log.v(TAG, "d is null: " + (data == null));
@@ -97,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            rvChanges.setVisibility(View.VISIBLE);
+                            emptyView.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             Log.v(TAG, "updated adapter");
 
@@ -120,26 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // let the magic begin
-        if (userClass != -1) {
-            df.execute(userClass);
-            Log.v(TAG, "fetching data for class " + userClass + "...");
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void forceRtlIfSupported() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        }
     }
 
     /**

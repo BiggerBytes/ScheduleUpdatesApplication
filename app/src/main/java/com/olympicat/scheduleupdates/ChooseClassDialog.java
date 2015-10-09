@@ -30,7 +30,7 @@ public class ChooseClassDialog extends DialogFragment {
                 getString(R.string.sp_school_class_choice), Context.MODE_PRIVATE);
 
         final String key = getString(R.string.key_school_class_choice);
-        int currentSelection = sharedPref.getInt(key, 0);
+        int currentSelection = SchoolClasses.getIndexByClassId(sharedPref.getInt(key, 0));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_choose_class)
