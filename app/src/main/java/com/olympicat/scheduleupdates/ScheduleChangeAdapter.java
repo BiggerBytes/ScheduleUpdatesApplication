@@ -44,7 +44,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         ScheduleChangeViewHolder.tvTeacherName.setText(change.getTeacherName());
         ScheduleChangeViewHolder.tvHour.setText("" + change.getHour());
-        ScheduleChangeViewHolder.tvDate.setText("" + formatDate(change.getDate()));
+        ScheduleChangeViewHolder.tvDate.setText("" + formatDate(change.getDate()).replace("\\.", "/"));
     }
 
     @Override
@@ -105,4 +105,5 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         return hm.get(c.get(Calendar.DAY_OF_WEEK));
     }
+
 }

@@ -1,6 +1,7 @@
 package com.olympicat.scheduleupdates;
 
 import android.annotation.TargetApi;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -34,11 +35,18 @@ public class MainActivity extends AppCompatActivity {
         // force rtl layout
         forceRtlIfSupported();
 
+
         // init recycler view
         rvChanges = (RecyclerView) findViewById(R.id.rvChanges);
+
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvChanges.setLayoutManager(llm);
+
+        changes = new ArrayList<>();
+        adapter = new ScheduleChangeAdapter(changes);
+        rvChanges.setAdapter(adapter);
+
 
         // locally testing app
         /*
@@ -48,23 +56,37 @@ public class MainActivity extends AppCompatActivity {
         changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
         */
 
-        DataFetcher df = new DataFetcher();
-        Log.v(TAG, "created data fetcher");
+//        try {
+//            changes = df.execute(24).get();
+//            Log.v(TAG, "" + changes.get(0));
+//            Log.v(TAG, "ordered schedule change");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
 
-        try {
-            changes = df.execute(24).get();
-            Log.v(TAG, "" + changes.get(0));
-            Log.v(TAG, "ordered schedule change");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
+        DataFetcher df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
+            @Override
+            public void onChangesReceived(ArrayList<ScheduleChange> data) {
+                Log.v(TAG, "in: on changes received. data[0]: " + data.get(0).getTeacherName());
+                Log.v(TAG, "d is null: " + (data == null));
+                if (data != null) {
+                    Log.v(TAG, "Data is not null");
+                    changes.clear();
+                    changes.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    Log.v(TAG, "updated adapter");
 
-        adapter = new ScheduleChangeAdapter(changes);
-        rvChanges.setAdapter(adapter);
+                    Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    // empty view
+                }
+            }
+        });
+        df.execute(15);
+        Log.v(TAG, "created data fetcher and started fetching...");
     }
 
     @Override

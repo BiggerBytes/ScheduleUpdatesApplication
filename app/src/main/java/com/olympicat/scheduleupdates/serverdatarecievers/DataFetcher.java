@@ -17,14 +17,19 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
 
     private final static String TAG = "DataFetcher";
 
+    private OnChangesReceivedListener listener;
+
     public DataFetcher() {
 
+    }
+
+    public DataFetcher(OnChangesReceivedListener listener) {
+        this.listener = listener;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Log.v(TAG, "before?");
     }
 
     @Override
@@ -72,6 +77,9 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
             out.close();
             in.close();
 
+            if (this.listener != null)
+                this.listener.onChangesReceived(data);
+
             return data;
         } catch (Exception e) {
             Log.d(TAG, e.toString());
@@ -79,5 +87,12 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
         }
 
 
+    }
+
+    /**
+     * a way to communicate with the main activity
+     */
+    public interface OnChangesReceivedListener {
+        void onChangesReceived(ArrayList<ScheduleChange> data);
     }
 }
