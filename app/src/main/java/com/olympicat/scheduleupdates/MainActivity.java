@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             String hour = "";
             for (int j = i + 1; j < this.changes.size(); ++j) {
                 if (changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName())) {
-                    hour = this.changes.get(i).getHour() + " - " + this.changes.get(j).getHour();
+                    hour = this.changes.get(i).getHour() + "-" + this.changes.get(j).getHour();
                     Log.v(TAG, "Added index " + j + " to list");
                     removeList.add(this.changes.get(j));
                 } else {
