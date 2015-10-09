@@ -1,6 +1,7 @@
 package com.olympicat.scheduleupdates;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout emptyView;
 
+    private SharedPreferences sharedPreferences;
+    private int userClass;
+    private ChooseClassDialog chooseClassDialog;
+
     private final static String TAG = "MainActivity";
 
     @Override
@@ -38,6 +43,29 @@ public class MainActivity extends AppCompatActivity {
 
         // force rtl layout
         forceRtlIfSupported();
+
+        // check if user has selected class
+        // if not, show him the dialog of selecting a class
+        // if so, continue to loading the data for his class
+        sharedPreferences = getSharedPreferences(getString(R.string.sp_school_class_choice), MODE_PRIVATE);
+        userClass = sharedPreferences.getInt(getString(R.string.key_school_class_choice), -1);
+//        userClass = -1;
+        if (userClass == -1) {
+            // user has not made a choice yet
+            // open the dialog
+            chooseClassDialog = new ChooseClassDialog();
+            chooseClassDialog.show(getFragmentManager(), "Choose Class Dialog");
+            chooseClassDialog.setOnDialogFinishListener(new ChooseClassDialog.OnDialogFinishListener() {
+                @Override
+                public void onFinish(int id) {
+                    userClass = id;
+                    Log.v(TAG, "got class id: " + id);
+                }
+            });
+        } else {
+            // user has made a choice
+            Log.v(TAG, "Success, choice: " + userClass);
+        }
 
         // init empty view
         emptyView = (RelativeLayout) findViewById(R.id.emptyView);
@@ -52,25 +80,6 @@ public class MainActivity extends AppCompatActivity {
         changes = new ArrayList<>();
         adapter = new ScheduleChangeAdapter(changes);
         rvChanges.setAdapter(adapter);
-
-
-        // locally testing app
-        /*
-        changes = new ArrayList<>();
-        changes.add(new ScheduleChange(27, 2, "הילה כרמי", ScheduleChange.ChangeType.CANCELLED));
-        changes.add(new ScheduleChange(27, 4, "לאו קירשנבאום", ScheduleChange.ChangeType.CANCELLED));
-        changes.add(new ScheduleChange(26, 2, "וולאדי הגבר", ScheduleChange.ChangeType.CANCELLED));
-        */
-
-//        try {
-//            changes = df.execute(24).get();
-//            Log.v(TAG, "" + changes.get(0));
-//            Log.v(TAG, "ordered schedule change");
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
 
 
         DataFetcher df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
@@ -108,8 +117,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        df.execute(10);
-        Log.v(TAG, "created data fetcher and started fetching...");
+
+        // let the magic begin
+        if (userClass != -1) {
+            df.execute(userClass);
+            Log.v(TAG, "fetching data for class " + userClass + "...");
+        }
     }
 
     @Override
