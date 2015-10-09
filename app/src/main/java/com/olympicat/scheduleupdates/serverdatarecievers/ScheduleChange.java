@@ -12,13 +12,13 @@ import java.util.Calendar;
  */
 public class ScheduleChange implements Serializable {
 
-    private Integer hour;
+    private String hour;
     private String date;
     private String teacherName;
 
     private ChangeType type;
 
-    public ScheduleChange(String date, Integer hour, String teacherName, ChangeType type) {
+    public ScheduleChange(String date, String hour, String teacherName, ChangeType type) {
         this.date = date;
         this.hour = hour;
         this.teacherName = teacherName;
@@ -33,11 +33,11 @@ public class ScheduleChange implements Serializable {
         this.date = date;
     }
 
-    public Integer getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(Integer hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
