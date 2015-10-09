@@ -3,6 +3,7 @@
 	<string name="label_day">יום</string>
 	<string name="no_changes">אין שינויים</string>
     <string name="title_choose_class">בחר כיתה</string>
+    <string name="action_change_class">שנה כיתה</string>
 
     <string name="sp_school_class_choice">com.olympicat.scheduleupdates.schoolclasschoice</string>
     <string name="key_school_class_choice">school_class_choice</string>
