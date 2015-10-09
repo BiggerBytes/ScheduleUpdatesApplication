@@ -2,8 +2,6 @@ package com.olympicat.scheduleupdates;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.olympicat.scheduleupdate.R;
@@ -24,7 +21,6 @@ import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -125,19 +121,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadChanges() {
         initDataFetcher();
-//        if (df != null) {
-            if (userClass != -1) {
-                Log.v(TAG, "AsyncTask status: " + df.getStatus());
-//                if (df.getStatus() != AsyncTask.Status.RUNNING)
-                    df.execute(userClass);
-                Log.v(TAG, "fetching data for class " + userClass + "...");
-            }
-//        } else {
-//
-//            loadChanges();
-//        }
+        if (userClass != -1) {
+            Log.v(TAG, "AsyncTask status: " + df.getStatus());
+            df.execute(userClass);
+            Log.v(TAG, "fetching data for class " + userClass + "...");
+        }
     }
 
+    /**
+     * creates a new data fetcher and sets up its listeners
+     */
     private void initDataFetcher() {
         df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
             @Override
