@@ -21,6 +21,7 @@ import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "Data is not null");
                     changes.clear();
                     changes.addAll(data);
+                    removeDuplicates();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -137,6 +139,31 @@ public class MainActivity extends AppCompatActivity {
     private void forceRtlIfSupported() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
+    }
+
+    /**
+     * removes the duplicates from the changes array list
+     */
+    private void removeDuplicates() {
+        Log.v(TAG, "Changes has " + this.changes.size());
+        List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
+        for (int i = 0; i < this.changes.size() - 1; ++i) {
+            String hour = "";
+            for (int j = i + 1; j < this.changes.size(); ++j) {
+                if (changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName())) {
+                    hour = this.changes.get(i).getHour() + " - " + this.changes.get(j).getHour();
+                    Log.v(TAG, "Added index " + j + " to list");
+                    removeList.add(this.changes.get(j));
+                } else {
+                    break;
+                }
+            }
+            this.changes.get(i).setHour(hour);
+        }
+        for (int i = 0; i < removeList.size(); ++i) {
+            this.changes.remove(removeList.get(i));
+            Log.v(TAG, "Changes has " + this.changes.size());
         }
     }
 }
