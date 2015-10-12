@@ -2,6 +2,7 @@ package com.olympicat.scheduleupdates;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,8 @@ import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // force rtl layout
         forceRtlIfSupported();
 
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         changes = new ArrayList<>();
         adapter = new ScheduleChangeAdapter(changes);
         rvChanges.setAdapter(adapter);
+
+        AutomaticDataRefresher.SetServiceAlarm(this, true);
     }
 
     @Override
@@ -126,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
             df.execute(userClass);
             Log.v(TAG, "fetching data for class " + userClass + "...");
         }
+
     }
+
 
     /**
      * creates a new data fetcher and sets up its listeners
@@ -137,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChangesReceived(ArrayList<ScheduleChange> data) {
                 Log.v(TAG, "d is null: " + (data == null));
                 if (data != null && data.size() > 0) {
+
                     // data is received and there is data
                     Log.v(TAG, "Data is not null");
                     changes.clear();
@@ -176,10 +184,16 @@ public class MainActivity extends AppCompatActivity {
      * removes the duplicates from the changes array list
      */
     private void removeDuplicates() {
+        Collections.sort(changes, new Comparator<ScheduleChange>() {
+            @Override
+            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
+                return lhs.getTeacherName().compareTo(rhs.getTeacherName());
+            }
+        });
         Log.v(TAG, "Changes has " + this.changes.size());
         List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
         for (int i = 0; i < this.changes.size() - 1; ++i) {
-            String hour = "";
+            String hour = this.changes.get(i).getHour();
             for (int j = i + 1; j < this.changes.size(); ++j) {
                 if (changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName())) {
                     hour = this.changes.get(i).getHour() + "-" + this.changes.get(j).getHour();
