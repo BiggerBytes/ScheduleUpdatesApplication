@@ -86,12 +86,12 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
     public String getDayInHebrew(String date) {
         Log.v(TAG, "date: " + date);
         HashMap<Integer, String> hm = new HashMap<>();
-        hm.put(2, "ראשון");
-        hm.put(3, "שני");
-        hm.put(4, "שלישי");
-        hm.put(5, "רביעי");
-        hm.put(6, "חמישי");
-        hm.put(7, "שישי");
+        hm.put(4, "ראשון");
+        hm.put(5, "שני");
+        hm.put(6, "שלישי");
+        hm.put(7, "רביעי");
+        hm.put(1, "חמישי");
+        hm.put(2, "שישי");
         // no saturday because there is no school on saturday
 
         String[] dateArr = date.split("\\.");

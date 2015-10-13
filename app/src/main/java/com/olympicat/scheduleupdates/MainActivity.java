@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 } else {
                     // error
+                    Log.v(TAG, "Error. Cannot read server.");
                 }
             }
         });
