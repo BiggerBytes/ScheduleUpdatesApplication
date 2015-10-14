@@ -26,33 +26,34 @@ public class FileDataManager {
     private static File file;
     private static FileDataManager manager;
 
+    private static Integer latestClassId;
 
-    private FileDataManager(){
-        if (!file.exists()){
+    private FileDataManager() {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            writeScheduleChange(new ArrayList<ScheduleChange>());
+            writeScheduleChange(new ArrayList<ScheduleChange>(), -1);
         }
     }
+
     /**
      * A must used method to initiate static object 'file'
      *
-     * @param dir The File object representing the directory of the file
+     * @param dir  The File object representing the directory of the file
      * @param name The name of the file including type [xxx.txt, xxx.dat ...]
      */
-    public static void setArguments(File dir, String name){
+    public static void setArguments(File dir, String name) {
         if (file == null) file = new File(dir, name);
     }
 
     /**
-     *
      * @return <b>true</b> if the needed arguments were initialized. <b>false</b> otherwise.
      */
-    public static boolean isClassReady() {
-        return !(file==null);
+    public static boolean isReady() {
+        return !(file == null);
     }
 
     public static FileDataManager getInstance() {
@@ -61,13 +62,13 @@ public class FileDataManager {
 
 
     /**
-     *
      * @param change The ScheduleData object to write inside the file
      * @return <b>true</b> if the writing was successful, <b>false</b> otherwise.
      */
-    public boolean writeScheduleChange(ArrayList<ScheduleChange> change) {
+    public boolean writeScheduleChange(ArrayList<ScheduleChange> change, int classId) {
         synchronized (file) {
             try {
+                latestClassId = classId;
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
                 oos.writeObject(change);
                 return true;
@@ -78,8 +79,13 @@ public class FileDataManager {
         }
     }
 
+    public static Integer getLatestClassId(){
+        return latestClassId;
+    }
+
     /**
      * Returns the ScheduleChange data found in the file
+     *
      * @return The ScheduleChange data. Returns 'null' if the
      * data is empty or broken.
      */
@@ -87,14 +93,8 @@ public class FileDataManager {
         synchronized (file) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                Object absData = ois.readObject();
-                if (absData == null)
-                    return new ArrayList<ScheduleChange>(0);
-                return (ArrayList<ScheduleChange>) absData;
-            } catch (IOException | ClassNotFoundException e) {
-                Log.e(TAG, e.getMessage());
-                return null;
-            }
+                return (ArrayList<ScheduleChange>) ois.readObject();
+            } catch(Exception e) {Log.e(TAG, e.getMessage()); return null;}
         }
     }
 }

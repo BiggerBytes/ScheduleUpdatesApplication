@@ -14,11 +14,12 @@ public class ScheduleDataFactory {
 
     private int classId;
 
-    public ScheduleDataFactory (int classId) {
+    public ScheduleDataFactory(int classId) {
         this.classId = classId;
     }
 
-    public ArrayList<ScheduleChange> getData() throws Exception{
+
+    public ArrayList<ScheduleChange> getData() throws Exception {
         //  Opening socket to server
         Socket socket = null;
         socket = new Socket(Constants.ADDRESS, Constants.PORT);
@@ -47,7 +48,6 @@ public class ScheduleDataFactory {
         socket.close();
         out.close();
         in.close();
-
 
 
         return data;

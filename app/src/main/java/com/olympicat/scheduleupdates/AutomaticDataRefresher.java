@@ -1,6 +1,5 @@
 package com.olympicat.scheduleupdates;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -14,7 +13,6 @@ import android.util.Log;
 
 import com.olympicat.scheduleupdate.R;
 import com.olympicat.scheduleupdates.serverdatarecievers.Constants;
-import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleDataFactory;
 
@@ -28,25 +26,24 @@ import java.util.ArrayList;
  */
 public class AutomaticDataRefresher extends IntentService {
 
-    private static final String TAG = "NotificationService";
-    private static final long DELAY_TIME = 1000l*60l*60l;
+    private static final String TAG = "AutomaticDataRefresher";
+    private static final long DELAY_TIME = 1000l * 60l * 15l;
 
     private FileDataManager manager;
     private static SharedPreferences sp;
-    private static Context parent;
     private static Context context;
 
 
-
-    public AutomaticDataRefresher(){
+    public AutomaticDataRefresher() {
         super(TAG);
     }
 
-    public void alertChangesChanged() {
+    public void notifyUserOverScheduleChanges() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("שינויי מערכת")
-            .setContentText("יש עדכוני מערכת חדשים");
+                .setContentTitle("שינויי מערכת")
+                .setContentText("יש עדכוני מערכת חדשים")
+                .setAutoCancel(true);
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentIntent(pi);
@@ -58,35 +55,44 @@ public class AutomaticDataRefresher extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d (TAG, "LOOPY LOOPS!");
-        if (!FileDataManager.isClassReady()) FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
-        if (manager == null) manager = FileDataManager.getInstance();
-
+        Log.d(TAG, "Doing a data refreshment!");
+        sp = getSharedPreferences(getString(R.string.sp_school_class_choice), MODE_PRIVATE);
+        int classId = sp.getInt(getString(R.string.key_school_class_choice), -1);
         try {
-            Log.d(TAG, sp.getInt(parent.getString(R.string.key_school_class_choice), -1) + "");
-            ScheduleDataFactory factory = new ScheduleDataFactory(sp.getInt(getString(R.string.key_school_class_choice), -1));
-            ArrayList<ScheduleChange> data = factory.getData(),
-                formerData = manager.readScheduleChange();
-            if (!data.equals(formerData) && data.size()>formerData.size())
-                alertChangesChanged();
+            Log.d(TAG, sp.getInt(getString(R.string.key_school_class_choice), -1) + "");
+            manager = FileDataManager.getInstance();
+            Log.d(TAG, "1");
+            ArrayList<ScheduleChange> oldList = manager.readScheduleChange();
+            Log.d(TAG, "2");
+            ArrayList<ScheduleChange> newList = new ScheduleDataFactory(classId).getData();
+            Log.d(TAG, "3");
+            //  Uses a temporary list that will remove all reoccurring schedule changes, to spot new ones.
+            ArrayList<ScheduleChange> tempNewList = new ArrayList<ScheduleChange>();
+            Log.d(TAG, "4");
+            tempNewList.addAll(newList);
+            tempNewList.removeAll(oldList);
+
+            if (tempNewList.size() > 0) {
+                manager.writeScheduleChange(newList, classId);
+                notifyUserOverScheduleChanges();
+            }
+            Log.d(TAG, "tempNewList.size() = " + tempNewList.size());
 
 
-
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
     }
 
-    public static void SetServiceAlarm (Context context, boolean isOn){
+    public static void setServiceAlarm(Context context, boolean isOn) {
         Log.d(TAG, "Fuggin message");
-        if (!FileDataManager.isClassReady()) {
+        if (!FileDataManager.isReady()) {
             FileDataManager.setArguments(context.getFilesDir(), Constants.FILE_NAME);
         }
         Intent i = new Intent(context, AutomaticDataRefresher.class);
 
         AutomaticDataRefresher.context = context;
-        AutomaticDataRefresher.parent = context;
-        sp = context.getSharedPreferences(parent.getString(R.string.sp_school_class_choice), MODE_PRIVATE);
+        sp = context.getSharedPreferences(context.getString(R.string.sp_school_class_choice), MODE_PRIVATE);
         PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

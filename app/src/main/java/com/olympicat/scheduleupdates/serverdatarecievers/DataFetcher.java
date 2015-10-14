@@ -3,6 +3,8 @@ package com.olympicat.scheduleupdates.serverdatarecievers;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.olympicat.scheduleupdates.FileDataManager;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -35,14 +37,22 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
     @Override
     protected ArrayList<ScheduleChange> doInBackground(Integer... params) {
         int classId = params[0];
+        ArrayList<ScheduleChange> data = null;
+        FileDataManager manager = FileDataManager.getInstance();
         try {
-            ScheduleDataFactory factory = new ScheduleDataFactory(classId);
-            ArrayList<ScheduleChange> data = factory.getData();
+            Log.d(TAG, "classId = " + classId);
+            Integer latestId = FileDataManager.getLatestClassId();
+            if (latestId == null || latestId != classId) {
+                ScheduleDataFactory factory = new ScheduleDataFactory(classId);
+                manager.writeScheduleChange(factory.getData(), classId);
+            }
+
+            data = manager.readScheduleChange();
             if (this.listener != null)
                 this.listener.onChangesReceived(data);
             return data;
         } catch (Exception e) {
-            Log.v(TAG, "array is empty.");
+            Log.e(TAG, e.getMessage());
             e.printStackTrace();
 
             if (this.listener != null)

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.olympicat.scheduleupdate.R;
+import com.olympicat.scheduleupdates.serverdatarecievers.Constants;
 import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (!FileDataManager.isReady()) FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
         // force rtl layout
         forceRtlIfSupported();
 
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ScheduleChangeAdapter(changes);
         rvChanges.setAdapter(adapter);
 
-        AutomaticDataRefresher.SetServiceAlarm(this, true);
+        AutomaticDataRefresher.setServiceAlarm(this, true);
     }
 
     @Override
