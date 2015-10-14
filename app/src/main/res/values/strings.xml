@@ -8,6 +8,9 @@
 	<string name="sp_school_class_choice">com.olympicat.scheduleupdates.schoolclasschoice</string>
 	<string name="key_school_class_choice">school_class_choice</string>
 
+	<string name="sp_last_updated">com.olympicat.scheduleupdates.lastupdated</string>
+	<string name="key_last_updated">last_updated</string>
+
 	<string-array name="classes">
 		<item>י1</item>
 		<item>י2</item>
