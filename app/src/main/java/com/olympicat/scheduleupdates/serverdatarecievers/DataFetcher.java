@@ -5,11 +5,7 @@ import android.util.Log;
 
 import com.olympicat.scheduleupdates.FileDataManager;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by OrenUrbach on 10/2/15.

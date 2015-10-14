@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        if (!FileDataManager.isReady()) FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
+        if (!FileDataManager.isReady())
+            FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
+
         // force rtl layout
         forceRtlIfSupported();
 

@@ -1,11 +1,9 @@
 package com.olympicat.scheduleupdates;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -79,7 +77,7 @@ public class FileDataManager {
         }
     }
 
-    public static Integer getLatestClassId(){
+    public static Integer getLatestClassId() {
         return latestClassId;
     }
 
@@ -94,7 +92,10 @@ public class FileDataManager {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
                 return (ArrayList<ScheduleChange>) ois.readObject();
-            } catch(Exception e) {Log.e(TAG, e.getMessage()); return null;}
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+                return null;
+            }
         }
     }
 }
