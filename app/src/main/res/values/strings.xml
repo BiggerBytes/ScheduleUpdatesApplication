@@ -2,41 +2,41 @@
 	<string name="app_name">עדכוני מערכת</string>
 	<string name="label_day">יום</string>
 	<string name="no_changes">אין שינויים</string>
-    <string name="title_choose_class">בחר כיתה</string>
-    <string name="action_change_class">שנה כיתה</string>
+	<string name="title_choose_class">בחר כיתה</string>
+	<string name="action_change_class">שנה כיתה</string>
 
-    <string name="sp_school_class_choice">com.olympicat.scheduleupdates.schoolclasschoice</string>
-    <string name="key_school_class_choice">school_class_choice</string>
+	<string name="sp_school_class_choice">com.olympicat.scheduleupdates.schoolclasschoice</string>
+	<string name="key_school_class_choice">school_class_choice</string>
 
-    <string-array name="classes">
-        <item>י1</item>
-        <item>י2</item>
-        <item>י3</item>
-        <item>י4</item>
-        <item>י5</item>
-        <item>י6</item>
-        <item>י7</item>
-        <item>י8</item>
-        <item>י9</item>
-        <item>י10</item>
-        <item>יא1</item>
-        <item>יא2</item>
-        <item>יא3</item>
-        <item>יא4</item>
-        <item>יא5</item>
-        <item>יא6</item>
-        <item>יא7</item>
-        <item>יא8</item>
-        <item>יב1</item>
-        <item>יב2</item>
-        <item>יב3</item>
-        <item>יב4</item>
-        <item>יב5</item>
-        <item>יב6</item>
-        <item>יב7</item>
-        <item>יב8</item>
-        <item>יב9</item>
-        <item>יב10</item>
-        <item>יב11</item>
-    </string-array>
+	<string-array name="classes">
+		<item>י1</item>
+		<item>י2</item>
+		<item>י3</item>
+		<item>י4</item>
+		<item>י5</item>
+		<item>י6</item>
+		<item>י7</item>
+		<item>י8</item>
+		<item>י9</item>
+		<item>י10</item>
+		<item>יא1</item>
+		<item>יא2</item>
+		<item>יא3</item>
+		<item>יא4</item>
+		<item>יא5</item>
+		<item>יא6</item>
+		<item>יא7</item>
+		<item>יא8</item>
+		<item>יב1</item>
+		<item>יב2</item>
+		<item>יב3</item>
+		<item>יב4</item>
+		<item>יב5</item>
+		<item>יב6</item>
+		<item>יב7</item>
+		<item>יב8</item>
+		<item>יב9</item>
+		<item>יב10</item>
+		<item>יב11</item>
+	</string-array>
 </resources>

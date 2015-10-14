@@ -12,6 +12,8 @@ import java.util.Calendar;
  */
 public class ScheduleChange implements Serializable {
 
+    public static final long serialVersionUID = 1l;
+
     private String hour;
     private String date;
     private String teacherName;
@@ -74,4 +76,26 @@ public class ScheduleChange implements Serializable {
         CANCELLED, SUB
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ScheduleChange that = (ScheduleChange) o;
+
+        if (!hour.equals(that.hour)) return false;
+        if (!date.equals(that.date)) return false;
+        if (!teacherName.equals(that.teacherName)) return false;
+        return type == that.type;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hour.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + teacherName.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
+    }
 }
