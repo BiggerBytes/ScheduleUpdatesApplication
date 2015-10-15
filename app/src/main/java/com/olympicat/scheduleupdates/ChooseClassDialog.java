@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.olympicat.scheduleupdate.R;
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleDataFactory;
 
 /**
  * Created by OrenUrbach on 10/9/15.
@@ -43,12 +42,9 @@ public class ChooseClassDialog extends DialogFragment {
                         Log.v(TAG, "classId: " + classId);
                         sharedPref.edit().putInt(key, classId).commit();
 
-
                         ChooseClassDialog.this.dismiss();
                         if (ChooseClassDialog.this.listener != null)
                             ChooseClassDialog.this.listener.onFinish(classId);
-
-
                     }
                 });
 
