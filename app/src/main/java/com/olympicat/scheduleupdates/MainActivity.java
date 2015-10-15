@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < this.changes.size() - 1; ++i) {
             String hour = this.changes.get(i).getHour();
             for (int j = i + 1; j < this.changes.size(); ++j) {
-                if (changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName())) {
+                if (this.changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName()) && changes.get(i).getDate().equals(this.changes.get(j).getDate())) {
                     hour = this.changes.get(i).getHour() + "-" + this.changes.get(j).getHour();
                     Log.v(TAG, "Added index " + j + " to list");
                     removeList.add(this.changes.get(j));
