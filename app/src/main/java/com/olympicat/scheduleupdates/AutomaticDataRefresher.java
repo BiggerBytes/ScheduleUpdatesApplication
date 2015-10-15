@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 public class AutomaticDataRefresher extends IntentService {
 
     private static final String TAG = "AutomaticDataRefresher";
-    private static final long DELAY_TIME = 1000l * 60l * 15l;
+    private static final long DELAY_TIME = 1000l * 60l * 20l; // 20 mins refresh interval
 
     private FileDataManager manager;
     private static SharedPreferences sp;
@@ -43,7 +45,9 @@ public class AutomaticDataRefresher extends IntentService {
         builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("שינויי מערכת")
                 .setContentText("יש עדכוני מערכת חדשים")
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setVibrate(new long[] { 1000, 1000})
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentIntent(pi);
@@ -80,7 +84,7 @@ public class AutomaticDataRefresher extends IntentService {
 
 
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "CRASH");
         }
     }
 
