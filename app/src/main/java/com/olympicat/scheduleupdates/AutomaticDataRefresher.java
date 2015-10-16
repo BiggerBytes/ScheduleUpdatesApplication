@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
@@ -43,6 +44,7 @@ public class AutomaticDataRefresher extends IntentService {
     public void notifyUserOverScheduleChanges() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_schedule_white_48dp)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.happy))
                 .setContentTitle("שינויי מערכת")
                 .setContentText("יש עדכוני מערכת חדשים")
                 .setAutoCancel(true)
