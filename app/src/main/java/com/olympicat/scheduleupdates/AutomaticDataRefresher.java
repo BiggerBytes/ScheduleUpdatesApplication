@@ -42,7 +42,7 @@ public class AutomaticDataRefresher extends IntentService {
 
     public void notifyUserOverScheduleChanges() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.drawable.happy)
+        builder.setSmallIcon(R.drawable.ic_schedule_white_48dp)
                 .setContentTitle("שינויי מערכת")
                 .setContentText("יש עדכוני מערכת חדשים")
                 .setAutoCancel(true)
