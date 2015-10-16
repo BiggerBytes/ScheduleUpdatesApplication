@@ -216,5 +216,11 @@ public class MainActivity extends AppCompatActivity {
             this.changes.remove(removeList.get(i));
             Log.v(TAG, "Changes has " + this.changes.size());
         }
+        Collections.sort(changes, new Comparator<ScheduleChange>() {
+            @Override
+            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
+                return lhs.getDate().toString().compareTo(rhs.getDate().toString());
+            }
+        });
     }
 }
