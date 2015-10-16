@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.olympicat.scheduleupdate.R;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ScheduleChangeAdapter adapter;
     private RecyclerView rvChanges;
     private DataFetcher df;
+    private ProgressBar progressBar;
 
     private RelativeLayout emptyView;
 
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         // force rtl layout
         forceRtlIfSupported();
+
+        // init progress bar
+        progressBar = (ProgressBar) findViewById(R.id.pbLoading);
 
         // check if user has selected class
         // if not, show him the dialog of selecting a class
@@ -130,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadChanges() {
         initDataFetcher();
+        if (rvChanges != null)
+            rvChanges.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         if (userClass != -1) {
             Log.v(TAG, "AsyncTask status: " + df.getStatus());
             df.execute(userClass);
@@ -159,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             rvChanges.setVisibility(View.VISIBLE);
                             emptyView.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             Log.v(TAG, "updated adapter");
                             if (sharedPreferences.getBoolean(getString(R.string.key_has_changed), false)) {
