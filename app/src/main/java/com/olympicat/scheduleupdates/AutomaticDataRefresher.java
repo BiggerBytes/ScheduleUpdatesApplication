@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class AutomaticDataRefresher extends IntentService {
 
     private static final String TAG = "AutomaticDataRefresher";
-    private static final long DELAY_TIME = 1000l * 60l * 2l; // 20 mins refresh interval
+    private static final long DELAY_TIME = 1000l * 60l * 5l; // 20 mins refresh interval
 
     private FileDataManager manager;
     private static SharedPreferences sp;
@@ -64,6 +64,8 @@ public class AutomaticDataRefresher extends IntentService {
         int classId = sp.getInt(getString(R.string.key_school_class_choice), -1);
         try {
             Log.d(TAG, sp.getInt(getString(R.string.key_school_class_choice), -1) + "");
+            if (!manager.isReady())
+                manager.setArguments(getFilesDir(), Constants.FILE_NAME);
             manager = FileDataManager.getInstance();
             Log.d(TAG, "1");
             ArrayList<ScheduleChange> oldList = manager.readScheduleChange();
@@ -74,6 +76,12 @@ public class AutomaticDataRefresher extends IntentService {
             ArrayList<ScheduleChange> tempNewList = new ArrayList<ScheduleChange>();
             Log.d(TAG, "4");
             tempNewList.addAll(newList);
+            for (ScheduleChange chng : tempNewList) {
+                Log.d(TAG, "NEW: " + chng.getHour());
+            }
+            for (ScheduleChange chng : oldList) {
+                Log.d(TAG, "OLD: " + chng.getHour());
+            }
             tempNewList.removeAll(oldList);
 
             if (tempNewList.size() > 0) {
@@ -85,7 +93,7 @@ public class AutomaticDataRefresher extends IntentService {
 
 
         } catch (Exception e) {
-            Log.e(TAG, "CRASH");
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 

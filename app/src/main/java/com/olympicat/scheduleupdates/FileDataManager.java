@@ -27,7 +27,7 @@ public class FileDataManager {
     private static Integer latestClassId;
 
     private FileDataManager() {
-        if (!file.exists()) {
+        if (file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {

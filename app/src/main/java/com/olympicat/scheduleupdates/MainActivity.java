@@ -95,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "DIED!");
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "Data is not null");
                     changes.clear();
                     changes.addAll(data);
-                    removeDuplicates();
+                    removeDuplicates(changes);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -190,31 +195,31 @@ public class MainActivity extends AppCompatActivity {
     /**
      * removes the duplicates from the changes array list
      */
-    private void removeDuplicates() {
+    public void removeDuplicates(ArrayList<ScheduleChange> changes) {
         Collections.sort(changes, new Comparator<ScheduleChange>() {
             @Override
             public int compare(ScheduleChange lhs, ScheduleChange rhs) {
                 return lhs.getTeacherName().compareTo(rhs.getTeacherName());
             }
         });
-        Log.v(TAG, "Changes has " + this.changes.size());
+        Log.v(TAG, "Changes has " + changes.size());
         List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
-        for (int i = 0; i < this.changes.size() - 1; ++i) {
-            String hour = this.changes.get(i).getHour();
-            for (int j = i + 1; j < this.changes.size(); ++j) {
-                if (this.changes.get(i).getTeacherName().equals(this.changes.get(j).getTeacherName()) && changes.get(i).getDate().equals(this.changes.get(j).getDate())) {
-                    hour = this.changes.get(i).getHour() + "-" + this.changes.get(j).getHour();
+        for (int i = 0; i < changes.size() - 1; ++i) {
+            String hour = changes.get(i).getHour();
+            for (int j = i + 1; j < changes.size(); ++j) {
+                if (changes.get(i).getTeacherName().equals(changes.get(j).getTeacherName()) && changes.get(i).getDate().equals(changes.get(j).getDate())) {
+                    hour = changes.get(i).getHour() + "-" + changes.get(j).getHour();
                     Log.v(TAG, "Added index " + j + " to list");
-                    removeList.add(this.changes.get(j));
+                    removeList.add(changes.get(j));
                 } else {
                     break;
                 }
             }
-            this.changes.get(i).setHour(hour);
+            changes.get(i).setHour(hour);
         }
         for (int i = 0; i < removeList.size(); ++i) {
-            this.changes.remove(removeList.get(i));
-            Log.v(TAG, "Changes has " + this.changes.size());
+            changes.remove(removeList.get(i));
+            Log.v(TAG, "Changes has " + changes.size());
         }
     }
 }
