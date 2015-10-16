@@ -6,3 +6,5 @@
 /build
 /captures
 /app/src/main/java/com/olympicat/scheduleupdates/serverdatarecievers/Constants.*
+
+.idea/misc.xml

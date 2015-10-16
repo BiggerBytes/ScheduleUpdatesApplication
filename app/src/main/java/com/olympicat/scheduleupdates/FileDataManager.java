@@ -40,8 +40,8 @@ public class FileDataManager {
     /**
      * A must used method to initiate static object 'file'
      *
-     * @param dir  The File object representing the directory of the file
-     * @param name The name of the file including type [xxx.txt, xxx.dat ...]
+     * @param dir  The File object representing the directory of the file. Use the getFilesDir() in a context.
+     * @param name The name of the file including type [xxx.txt, xxx.dat ...]. Use Constants.FILE_NAME.
      */
     public static void setArguments(File dir, String name) {
         if (file == null) file = new File(dir, name);
