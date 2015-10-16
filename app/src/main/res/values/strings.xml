@@ -10,6 +10,7 @@
 
 	<string name="sp_last_updated">com.olympicat.scheduleupdates.lastupdated</string>
 	<string name="key_last_updated">last_updated</string>
+	<string name="key_has_changed">key_has_changed</string>
 
 	<string-array name="classes">
 		<item>י1</item>

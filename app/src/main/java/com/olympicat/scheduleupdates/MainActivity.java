@@ -161,8 +161,10 @@ public class MainActivity extends AppCompatActivity {
                             emptyView.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             Log.v(TAG, "updated adapter");
-
-                            Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
+                            if (sharedPreferences.getBoolean(getString(R.string.key_has_changed), false)) {
+                                Snackbar.make(findViewById(android.R.id.content), changes.size() + " עדכונים חדשים", Snackbar.LENGTH_SHORT).show();
+                                sharedPreferences.edit().putBoolean(getString(R.string.key_has_changed), false);
+                            }
                         }
                     });
 

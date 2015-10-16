@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class AutomaticDataRefresher extends IntentService {
 
     private static final String TAG = "AutomaticDataRefresher";
-    private static final long DELAY_TIME = 1000l * 60l * 20l; // 20 mins refresh interval
+    private static final long DELAY_TIME = 1000l * 60l * 2l; // 20 mins refresh interval
 
     private FileDataManager manager;
     private static SharedPreferences sp;
@@ -46,7 +46,7 @@ public class AutomaticDataRefresher extends IntentService {
                 .setContentTitle("שינויי מערכת")
                 .setContentText("יש עדכוני מערכת חדשים")
                 .setAutoCancel(true)
-                .setVibrate(new long[] { 1000, 1000})
+                .setVibrate(new long[]{1000, 1000})
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
@@ -77,9 +77,10 @@ public class AutomaticDataRefresher extends IntentService {
             tempNewList.removeAll(oldList);
 
             if (tempNewList.size() > 0) {
-                manager.writeScheduleChange(newList, classId);
                 notifyUserOverScheduleChanges();
+                sp.edit().putBoolean(getString(R.string.key_has_changed), true);
             }
+            manager.writeScheduleChange(newList, classId);
             Log.d(TAG, "tempNewList.size() = " + tempNewList.size());
 
 
@@ -90,9 +91,7 @@ public class AutomaticDataRefresher extends IntentService {
 
     public static void setServiceAlarm(Context context, boolean isOn) {
         Log.d(TAG, "Fuggin message");
-        if (!FileDataManager.isReady()) {
-            FileDataManager.setArguments(context.getFilesDir(), Constants.FILE_NAME);
-        }
+
         Intent i = new Intent(context, AutomaticDataRefresher.class);
 
         AutomaticDataRefresher.context = context;
@@ -101,8 +100,7 @@ public class AutomaticDataRefresher extends IntentService {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (isOn) {
-            alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), DELAY_TIME, pi);
-
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), DELAY_TIME, pi);
         } else {
             alarmManager.cancel(pi);
             pi.cancel();
