@@ -64,8 +64,8 @@ public class AutomaticDataRefresher extends IntentService {
         int classId = sp.getInt(getString(R.string.key_school_class_choice), -1);
         try {
             Log.d(TAG, sp.getInt(getString(R.string.key_school_class_choice), -1) + "");
-            if (!manager.isReady())
-                manager.setArguments(getFilesDir(), Constants.FILE_NAME);
+            if (!FileDataManager.isReady())
+                FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
             manager = FileDataManager.getInstance();
             Log.d(TAG, "1");
             ArrayList<ScheduleChange> oldList = manager.readScheduleChange();
