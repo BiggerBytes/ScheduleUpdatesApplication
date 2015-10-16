@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class AutomaticDataRefresher extends IntentService {
 
     private static final String TAG = "AutomaticDataRefresher";
-    private static final long DELAY_TIME = 1000l * 60l * 2l; // 20 mins refresh interval
+    private static final long DELAY_TIME = 1000l * 60l * 20l; // 20 mins refresh interval
 
     private FileDataManager manager;
     private static SharedPreferences sp;
@@ -64,6 +64,8 @@ public class AutomaticDataRefresher extends IntentService {
         int classId = sp.getInt(getString(R.string.key_school_class_choice), -1);
         try {
             Log.d(TAG, sp.getInt(getString(R.string.key_school_class_choice), -1) + "");
+            if (!FileDataManager.isReady())
+                FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
             manager = FileDataManager.getInstance();
             Log.d(TAG, "1");
             ArrayList<ScheduleChange> oldList = manager.readScheduleChange();
