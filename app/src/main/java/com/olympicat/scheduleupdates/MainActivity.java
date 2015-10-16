@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         rvChanges.setLayoutManager(llm);
 
         changes = new ArrayList<>();
-        adapter = new ScheduleChangeAdapter(changes);
+        adapter = new ScheduleChangeAdapter(this, changes);
         rvChanges.setAdapter(adapter);
 
         AutomaticDataRefresher.setServiceAlarm(this, true);
