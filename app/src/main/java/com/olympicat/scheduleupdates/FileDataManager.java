@@ -44,7 +44,7 @@ public class FileDataManager {
      * @param name The name of the file including type [xxx.txt, xxx.dat ...]. Use Constants.FILE_NAME.
      */
     public static void setArguments(File dir, String name) {
-        if (file == null) file = new File(dir, name);
+        if (file == null) { file = new File(dir, name); Log.d(TAG, "New file added"); }
     }
 
     /**

@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         rvChanges.setLayoutManager(llm);
 
         changes = new ArrayList<>();
-        adapter = new ScheduleChangeAdapter(changes);
+        adapter = new ScheduleChangeAdapter(this, changes);
         rvChanges.setAdapter(adapter);
 
         AutomaticDataRefresher.setServiceAlarm(this, true);
@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             rvChanges.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                             emptyView.setVisibility(View.VISIBLE);
                         }
                     });
