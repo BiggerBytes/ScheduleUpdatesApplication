@@ -1,6 +1,8 @@
 package com.olympicat.scheduleupdates;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,16 +63,16 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
                 ScheduleChangeViewHolder.tvDayOfMonth.setVisibility(View.INVISIBLE);
                 ScheduleChangeViewHolder.tvDayOfWeek.setVisibility(View.INVISIBLE);
             } else {
-                  // TODO: make the margin bigger between days
-//                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ScheduleChangeViewHolder.item.getLayoutParams();
-//                params.setMargins(0, 16, 0, 0);
-//                ScheduleChangeViewHolder.item.setLayoutParams(params);
+                // a little hack to make gutter between days
+                // instead of fiddling around with layout params to change margins
+                // i will show or hide a dedicated view with the height of gutter
+                ScheduleChangeViewHolder.gutter.setVisibility(View.VISIBLE);
             }
 
         }
 
         // if it's today, color it green
-        int primary = context.getResources().getColor(R.color.primary);
+        int primary = ContextCompat.getColor(context, R.color.primary);
         if (Integer.parseInt(dayOfMonth) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
             ScheduleChangeViewHolder.tvDayOfMonth.setTextColor(primary);
             ScheduleChangeViewHolder.tvDayOfWeek.setTextColor(primary);
@@ -89,12 +91,14 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
 
     public static class ScheduleChangeViewHolder extends RecyclerView.ViewHolder {
-        private RelativeLayout item;
+        private CardView cvChange;
+        private View gutter;
         private TextView tvTeacherName, tvHours, tvDayOfMonth, tvDayOfWeek, tvChangeType;
 
         public ScheduleChangeViewHolder(View itemView) {
             super(itemView);
-            item = (RelativeLayout) itemView.findViewById(R.id.item_change);
+            cvChange = (CardView) itemView.findViewById(R.id.cvChange);
+            gutter = itemView.findViewById(R.id.gutter);
             tvTeacherName = (TextView) itemView.findViewById(R.id.tvTeacherName);
             tvHours = (TextView) itemView.findViewById(R.id.tvHours);
             tvDayOfMonth = (TextView) itemView.findViewById(R.id.tvDayOfMonth);
@@ -105,6 +109,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
     /**
      * returns the day of month from the given string date
+     *
      * @param given
      * @return
      */
@@ -124,7 +129,6 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         // no saturday because there is no school on saturday
 
         String[] dateArr = date.split("\\.");
-//        int day = Integer.parseInt(date.substring(0,2));
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[0]));
         c.set(Calendar.MONTH, Integer.parseInt(dateArr[1]));
@@ -134,5 +138,6 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         return hm.get(c.get(Calendar.DAY_OF_WEEK));
     }
+
 
 }
