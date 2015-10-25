@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             rvChanges.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                             emptyView.setVisibility(View.VISIBLE);
                         }
                     });
