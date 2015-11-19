@@ -51,9 +51,12 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         ScheduleChangeViewHolder.tvHours.setText(change.getHour());
         ScheduleChangeViewHolder.tvDayOfMonth.setText(dayOfMonth);
         ScheduleChangeViewHolder.tvDayOfWeek.setText(getDayInHebrew(date));
-        // TODO: decide if this is a cancel or sub
-        ScheduleChangeViewHolder.tvChangeType.setText(context.getString(R.string.label_cancel));
-
+        if (change.getSubTeacher() == null)
+            ScheduleChangeViewHolder.tvChangeType.setText(context.getString(R.string.label_cancel));
+        else {
+            ScheduleChangeViewHolder.tvChangeType.setText(context.getString(R.string.label_sub));
+            ScheduleChangeViewHolder.tvTeacherName.setText(change.getSubTeacher());
+        }
         // if it's the same day, don't show the day again
         if (index != 0) {
             final ScheduleChange prev = this.changes.get(index - 1);
@@ -119,14 +122,8 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
     public String getDayInHebrew(String date) {
         Log.v(TAG, "date: " + date);
-        HashMap<Integer, String> hm = new HashMap<>();
-        hm.put(4, "ראשון");
-        hm.put(5, "שני");
-        hm.put(6, "שלישי");
-        hm.put(7, "רביעי");
-        hm.put(1, "חמישי");
-        hm.put(2, "שישי");
-        // no saturday because there is no school on saturday
+
+        String[] hm = {"ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"};
 
         String[] dateArr = date.split("\\.");
         Calendar c = Calendar.getInstance();
@@ -136,7 +133,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
 
         Log.v(TAG, "day of the week: " + c.get(Calendar.DAY_OF_WEEK));
 
-        return hm.get(c.get(Calendar.DAY_OF_WEEK));
+        return hm[(c.get(Calendar.DAY_OF_WEEK) + 4) % 7]; // elegant solution to the weird days arrangement, could replace +4 with (-3 + 7);
     }
 
 

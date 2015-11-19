@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
+ *
  * @author Avishay
  */
 public class ScheduleChange implements Serializable {
@@ -15,14 +16,12 @@ public class ScheduleChange implements Serializable {
     private String hour;
     private String date;
     private String teacherName;
+    private String subTeacher = null; //hooray for being lazy, location not included
 
-    private ChangeType type;
-
-    public ScheduleChange(String date, String hour, String teacherName, ChangeType type) {
+    public ScheduleChange(String date, String hour, String teacherName) {
         this.date = date;
         this.hour = hour;
         this.teacherName = teacherName;
-        this.type = type;
     }
 
     public String getDate() {
@@ -49,14 +48,6 @@ public class ScheduleChange implements Serializable {
         this.teacherName = teacherName;
     }
 
-    public ChangeType getType() {
-        return type;
-    }
-
-    public void setType(ChangeType type) {
-        this.type = type;
-    }
-
     public void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }
@@ -65,35 +56,11 @@ public class ScheduleChange implements Serializable {
         in.defaultReadObject();
     }
 
-    /**
-     * describes the type of a change:
-     * either lesson cancelled
-     * or a sub teacher is placed
-     */
-    public enum ChangeType {
-        CANCELLED, SUB
+    public String getSubTeacher() {
+        return subTeacher;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ScheduleChange that = (ScheduleChange) o;
-
-        if (!hour.equals(that.hour)) return false;
-        if (!date.equals(that.date)) return false;
-        if (!teacherName.equals(that.teacherName)) return false;
-        return type == that.type;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = hour.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + teacherName.hashCode();
-        result = 31 * result + type.hashCode();
-        return result;
+    public void setSubTeacher(String subTeacher) {
+        this.subTeacher = subTeacher;
     }
 }
