@@ -63,4 +63,20 @@ public class ScheduleChange implements Serializable {
     public void setSubTeacher(String subTeacher) {
         this.subTeacher = subTeacher;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ScheduleChange that = (ScheduleChange) o;
+
+        if (hour != null ? !hour.equals(that.hour) : that.hour != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (teacherName != null ? !teacherName.equals(that.teacherName) : that.teacherName != null)
+            return false;
+        return !(subTeacher != null ? !subTeacher.equals(that.subTeacher) : that.subTeacher != null);
+
+    }
+
 }
