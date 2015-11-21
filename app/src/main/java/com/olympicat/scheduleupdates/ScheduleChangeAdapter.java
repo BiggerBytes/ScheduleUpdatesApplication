@@ -41,6 +41,11 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         return mvh;
     }
 
+    public void setChanges(ArrayList<ScheduleChange> changes) {
+        this.changes = changes;
+    }
+
+
     @Override
     public void onBindViewHolder(ScheduleChangeViewHolder ScheduleChangeViewHolder, int index) {
         final ScheduleChange change = this.changes.get(index);
@@ -58,14 +63,18 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
             ScheduleChangeViewHolder.tvTeacherName.setText(change.getSubTeacher());
         }
         // if it's the same day, don't show the day again
+
         if (index != 0) {
             final ScheduleChange prev = this.changes.get(index - 1);
-            Log.v(TAG, "this day of the month: " + dayOfMonth);
-            Log.v(TAG, "previous day of month: " + getDayOfMonth(prev.getDate()));
+            //Log.v(TAG, "this day of the month: " + dayOfMonth);
+            //Log.v(TAG, "previous day of month: " + getDayOfMonth(prev.getDate()));
             if (getDayOfMonth(prev.getDate()).equals(dayOfMonth)) {
+                Log.d(TAG, "current date = " + dayOfMonth + " at index " + index);
+                Log.d(TAG, "previous date = " + getDayOfMonth(prev.getDate()));
                 ScheduleChangeViewHolder.tvDayOfMonth.setVisibility(View.INVISIBLE);
                 ScheduleChangeViewHolder.tvDayOfWeek.setVisibility(View.INVISIBLE);
             } else {
+                Log.d(TAG, dayOfMonth + " does not equal " + getDayOfMonth(prev.getDate()) + " at index " + index);
                 // a little hack to make gutter between days
                 // instead of fiddling around with layout params to change margins
                 // i will show or hide a dedicated view with the height of gutter
@@ -81,6 +90,8 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
             ScheduleChangeViewHolder.tvDayOfWeek.setTextColor(primary);
         }
     }
+
+
 
     @Override
     public int getItemCount() {

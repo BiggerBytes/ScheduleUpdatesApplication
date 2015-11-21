@@ -140,8 +140,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadChanges() {
         initDataFetcher();
-        if (rvChanges != null)
+        if (rvChanges != null) {
             rvChanges.setVisibility(View.GONE);
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            rvChanges.setLayoutManager(llm);
+
+            changes = new ArrayList<>();
+            adapter = new ScheduleChangeAdapter(this, changes);
+            rvChanges.setAdapter(adapter);
+        }
+
         progressBar.setVisibility(View.VISIBLE);
 
         if (userClass != -1) {

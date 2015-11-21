@@ -91,6 +91,7 @@ public class AutomaticDataRefresher extends IntentService {
                 sp.edit().putBoolean(getString(R.string.key_has_changed), true);
             }
             manager.writeScheduleChange(newList, classId);
+
             Log.d(TAG, "tempNewList.size() = " + tempNewList.size());
 
 
