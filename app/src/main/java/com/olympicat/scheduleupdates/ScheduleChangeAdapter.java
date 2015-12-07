@@ -139,12 +139,12 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         String[] dateArr = date.split("\\.");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[0]));
-        c.set(Calendar.MONTH, Integer.parseInt(dateArr[1]));
+        c.set(Calendar.MONTH, Integer.parseInt(dateArr[1]) - 1); // MONTHS START FROM 0??? LOL
         c.set(Calendar.YEAR, Integer.parseInt(dateArr[2]));
 
         Log.v(TAG, "day of the week: " + c.get(Calendar.DAY_OF_WEEK));
 
-        return hm[(c.get(Calendar.DAY_OF_WEEK) + 4) % 7]; // elegant solution to the weird days arrangement, could replace +4 with (-3 + 7);
+        return hm[(c.get(Calendar.DAY_OF_WEEK)) - 1];
     }
 
 
