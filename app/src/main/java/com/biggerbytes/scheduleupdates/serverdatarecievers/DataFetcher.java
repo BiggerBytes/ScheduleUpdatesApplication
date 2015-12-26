@@ -1,9 +1,9 @@
-package com.olympicat.scheduleupdates.serverdatarecievers;
+package com.biggerbytes.scheduleupdates.serverdatarecievers;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.olympicat.scheduleupdates.FileDataManager;
+import com.biggerbytes.scheduleupdates.FileDataManager;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChan
             Log.d(TAG, "classId = " + classId);
             Integer latestId = FileDataManager.getLatestClassId();
             if (latestId == null || latestId != classId) {
-                ScheduleDataFactory factory = new ScheduleDataFactory(classId);
+                com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleDataFactory factory = new ScheduleDataFactory(classId);
                 manager.writeScheduleChange(factory.getData(), classId);
             }
 

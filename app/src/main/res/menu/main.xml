@@ -6,5 +6,11 @@
         android:id="@+id/action_change_school_class"
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:title="@string/action_change_class"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about_menu"
         app:showAsAction="always" />
+
 </menu>

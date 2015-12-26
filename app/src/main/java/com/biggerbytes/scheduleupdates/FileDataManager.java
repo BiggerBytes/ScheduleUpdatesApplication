@@ -1,8 +1,8 @@
-package com.olympicat.scheduleupdates;
+package com.biggerbytes.scheduleupdates;
 
 import android.util.Log;
 
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
+import com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ public class FileDataManager {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            writeScheduleChange(new ArrayList<ScheduleChange>(), -1);
+            writeScheduleChange(new ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>(), -1);
         }
     }
 
@@ -63,7 +63,7 @@ public class FileDataManager {
      * @param change The ScheduleData object to write inside the file
      * @return <b>true</b> if the writing was successful, <b>false</b> otherwise.
      */
-    public boolean writeScheduleChange(ArrayList<ScheduleChange> change, int classId) {
+    public boolean writeScheduleChange(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> change, int classId) {
         synchronized (file) {
             try {
                 latestClassId = classId;
@@ -87,11 +87,11 @@ public class FileDataManager {
      * @return The ScheduleChange data. Returns 'null' if the
      * data is empty or broken.
      */
-    public ArrayList<ScheduleChange> readScheduleChange() {
+    public ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> readScheduleChange() {
         synchronized (file) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                return (ArrayList<ScheduleChange>) ois.readObject();
+                return (ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>) ois.readObject();
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
                 return null;

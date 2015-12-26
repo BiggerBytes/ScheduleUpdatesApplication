@@ -6,6 +6,7 @@
 	<string name="action_change_class">שנה כיתה</string>
 	<string name="label_cancel">ביטול שיעור</string>
 	<string name="label_sub">מילוי מקום</string>
+    <string name="about_menu">אודות</string>
 
 	<string name="sp_school_class_choice">com.olympicat.scheduleupdates.schoolclasschoice</string>
 	<string name="key_school_class_choice">school_class_choice</string>
@@ -13,6 +14,8 @@
 	<string name="sp_last_updated">com.olympicat.scheduleupdates.lastupdated</string>
 	<string name="key_last_updated">last_updated</string>
 	<string name="key_has_changed">key_has_changed</string>
+
+	<string name="banner_ad_unit_id">ca-app-pub-1359924322340995/1447294076</string>
 
 	<string-array name="classes">
 		<item>י1</item>

@@ -1,4 +1,4 @@
-package com.olympicat.scheduleupdates;
+package com.biggerbytes.scheduleupdates;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -16,11 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.olympicat.scheduleupdate.R;
-import com.olympicat.scheduleupdates.serverdatarecievers.Constants;
-import com.olympicat.scheduleupdates.serverdatarecievers.DataFetcher;
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
+import com.biggerbytes.scheduleupdate.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,11 +30,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<ScheduleChange> changes;
+    private ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes;
     private ScheduleChangeAdapter adapter;
     private RecyclerView rvChanges;
-    private DataFetcher df;
+    private com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher df;
     private ProgressBar progressBar;
+    private AdView adView;
 
     private RelativeLayout emptyView;
 
@@ -49,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (!FileDataManager.isReady())
-            FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
+            FileDataManager.setArguments(getFilesDir(), com.biggerbytes.scheduleupdates.serverdatarecievers.Constants.FILE_NAME);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("3E5A459F6D56025BFD3350299B9A038F").build();
+        mAdView.loadAd(adRequest);
 
         // force rtl layout
         forceRtlIfSupported();
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ScheduleChangeAdapter(this, changes);
         rvChanges.setAdapter(adapter);
 
-        AutomaticDataRefresher.setServiceAlarm(this, true);
+        com.biggerbytes.scheduleupdates.AutomaticDataRefresher.setServiceAlarm(this, true);
     }
 
     @Override
@@ -104,10 +110,12 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(TAG, "DIED!");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -125,10 +133,15 @@ public class MainActivity extends AppCompatActivity {
                         loadChanges();
                     }
                 });
+                break;
 
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.about:
+                Toast.makeText(this, "תביאו לנו כסף יא עמלקים", Toast.LENGTH_SHORT).show();
+                break;
+
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -166,9 +179,9 @@ public class MainActivity extends AppCompatActivity {
      * creates a new data fetcher and sets up its listeners
      */
     private void initDataFetcher() {
-        df = new DataFetcher(new DataFetcher.OnChangesReceivedListener() {
+        df = new com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher(new com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher.OnChangesReceivedListener() {
             @Override
-            public void onChangesReceived(ArrayList<ScheduleChange> data) {
+            public void onChangesReceived(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> data) {
                 Log.v(TAG, "d is null: " + (data == null));
                 if (data != null && data.size() > 0) {
 
@@ -215,15 +228,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * removes the duplicates from the changes array list
      */
-    public void removeDuplicates(ArrayList<ScheduleChange> changes) {
-        Collections.sort(changes, new Comparator<ScheduleChange>() {
+    public void removeDuplicates(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes) {
+        Collections.sort(changes, new Comparator<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>() {
             @Override
-            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
+            public int compare(com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange lhs, com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange rhs) {
                 return lhs.getTeacherName().compareTo(rhs.getTeacherName());
             }
         });
         Log.v(TAG, "Changes has " + changes.size());
-        List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
+        List<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> removeList = new ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>();
         for (int i = 0; i < changes.size() - 1; ++i) {
             String hour = changes.get(i).getHour();
             for (int j = i + 1; j < changes.size(); ++j) {
@@ -241,9 +254,9 @@ public class MainActivity extends AppCompatActivity {
             changes.remove(removeList.get(i));
             Log.v(TAG, "Changes has " + changes.size());
         }
-        Collections.sort(changes, new Comparator<ScheduleChange>() {
+        Collections.sort(changes, new Comparator<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>() {
             @Override
-            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
+            public int compare(com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange lhs, com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange rhs) {
                 return lhs.getDate().toString().compareTo(rhs.getDate().toString());
             }
         });

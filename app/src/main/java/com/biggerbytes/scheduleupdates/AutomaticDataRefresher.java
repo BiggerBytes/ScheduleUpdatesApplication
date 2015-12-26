@@ -1,4 +1,4 @@
-package com.olympicat.scheduleupdates;
+package com.biggerbytes.scheduleupdates;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -13,10 +13,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.olympicat.scheduleupdate.R;
-import com.olympicat.scheduleupdates.serverdatarecievers.Constants;
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleDataFactory;
+import com.biggerbytes.scheduleupdate.R;
 
 import java.util.ArrayList;
 
@@ -31,7 +28,7 @@ public class AutomaticDataRefresher extends IntentService {
     private static final String TAG = "AutomaticDataRefresher";
     private static final long DELAY_TIME = 1000l * 60l * 20l; // 20 mins refresh interval
 
-    private FileDataManager manager;
+    private com.biggerbytes.scheduleupdates.FileDataManager manager;
     private static SharedPreferences sp;
     private static Context context;
 
@@ -49,7 +46,7 @@ public class AutomaticDataRefresher extends IntentService {
                 .setAutoCancel(true)
                 .setVibrate(new long[]{1000, 1000})
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, com.biggerbytes.scheduleupdates.MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentIntent(pi);
 
@@ -65,22 +62,22 @@ public class AutomaticDataRefresher extends IntentService {
         int classId = sp.getInt(getString(R.string.key_school_class_choice), -1);
         try {
             Log.d(TAG, sp.getInt(getString(R.string.key_school_class_choice), -1) + "");
-            if (!FileDataManager.isReady())
-                FileDataManager.setArguments(getFilesDir(), Constants.FILE_NAME);
-            manager = FileDataManager.getInstance();
+            if (!com.biggerbytes.scheduleupdates.FileDataManager.isReady())
+                com.biggerbytes.scheduleupdates.FileDataManager.setArguments(getFilesDir(), com.biggerbytes.scheduleupdates.serverdatarecievers.Constants.FILE_NAME);
+            manager = com.biggerbytes.scheduleupdates.FileDataManager.getInstance();
             Log.d(TAG, "1");
-            ArrayList<ScheduleChange> oldList = manager.readScheduleChange();
+            ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> oldList = manager.readScheduleChange();
             Log.d(TAG, "2");
-            ArrayList<ScheduleChange> newList = new ScheduleDataFactory(classId).getData();
+            ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> newList = new com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleDataFactory(classId).getData();
             Log.d(TAG, "3");
             //  Uses a temporary list that will remove all reoccurring schedule changes, to spot new ones.
-            ArrayList<ScheduleChange> tempNewList = new ArrayList<ScheduleChange>();
+            ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> tempNewList = new ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>();
             Log.d(TAG, "4");
             tempNewList.addAll(newList);
-            for (ScheduleChange chng : tempNewList) {
+            for (com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange chng : tempNewList) {
                 Log.d(TAG, "NEW: " + chng.getHour());
             }
-            for (ScheduleChange chng : oldList) {
+            for (com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange chng : oldList) {
                 Log.d(TAG, "OLD: " + chng.getHour());
             }
             tempNewList.removeAll(oldList);
