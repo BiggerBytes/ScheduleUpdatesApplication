@@ -1,4 +1,4 @@
-package com.olympicat.scheduleupdates;
+package com.biggerbytes.scheduleupdates;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.olympicat.scheduleupdate.R;
-import com.olympicat.scheduleupdates.serverdatarecievers.ScheduleChange;
+import com.biggerbytes.scheduleupdate.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,11 +24,11 @@ import java.util.HashMap;
 public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAdapter.ScheduleChangeViewHolder> {
 
     private Context context;
-    private ArrayList<ScheduleChange> changes;
+    private ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes;
 
     private final static String TAG = "ScheduleChangeAdapter";
 
-    public ScheduleChangeAdapter(Context c, ArrayList<ScheduleChange> changes) {
+    public ScheduleChangeAdapter(Context c, ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes) {
         this.context = c;
         this.changes = changes;
     }
@@ -41,14 +40,14 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         return mvh;
     }
 
-    public void setChanges(ArrayList<ScheduleChange> changes) {
+    public void setChanges(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes) {
         this.changes = changes;
     }
 
 
     @Override
     public void onBindViewHolder(ScheduleChangeViewHolder ScheduleChangeViewHolder, int index) {
-        final ScheduleChange change = this.changes.get(index);
+        final com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange change = this.changes.get(index);
         String date = change.getDate();
         String dayOfMonth = getDayOfMonth(date);
 
@@ -65,7 +64,7 @@ public class ScheduleChangeAdapter extends RecyclerView.Adapter<ScheduleChangeAd
         // if it's the same day, don't show the day again
 
         if (index != 0) {
-            final ScheduleChange prev = this.changes.get(index - 1);
+            final com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange prev = this.changes.get(index - 1);
             //Log.v(TAG, "this day of the month: " + dayOfMonth);
             //Log.v(TAG, "previous day of month: " + getDayOfMonth(prev.getDate()));
             if (getDayOfMonth(prev.getDate()).equals(dayOfMonth)) {

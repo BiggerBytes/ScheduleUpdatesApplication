@@ -1,4 +1,4 @@
-package com.olympicat.scheduleupdates;
+package com.biggerbytes.scheduleupdates;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.olympicat.scheduleupdate.R;
+import com.biggerbytes.scheduleupdate.R;
 
 /**
  * Created by OrenUrbach on 10/9/15.
@@ -30,7 +30,7 @@ public class ChooseClassDialog extends DialogFragment {
                 getString(R.string.sp_school_class_choice), Context.MODE_PRIVATE);
 
         final String key = getString(R.string.key_school_class_choice);
-        int currentSelection = SchoolClasses.getIndexByClassId(sharedPref.getInt(key, 0));
+        int currentSelection = com.biggerbytes.scheduleupdates.SchoolClasses.getIndexByClassId(sharedPref.getInt(key, 0));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_choose_class)
@@ -38,7 +38,7 @@ public class ChooseClassDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.v(TAG, "Index : " + which);
-                        int classId = SchoolClasses.getScoolClassId(which);
+                        int classId = com.biggerbytes.scheduleupdates.SchoolClasses.getScoolClassId(which);
                         Log.v(TAG, "classId: " + classId);
                         sharedPref.edit().putInt(key, classId).commit();
 

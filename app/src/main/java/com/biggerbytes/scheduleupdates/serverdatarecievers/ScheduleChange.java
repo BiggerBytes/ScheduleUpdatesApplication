@@ -1,4 +1,4 @@
-package com.olympicat.scheduleupdates.serverdatarecievers;
+package com.biggerbytes.scheduleupdates.serverdatarecievers;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
