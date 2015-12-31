@@ -19,8 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.biggerbytes.scheduleupdate.R;
+import com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes;
+    private ArrayList<ScheduleChange> changes;
     private ScheduleChangeAdapter adapter;
     private RecyclerView rvChanges;
     private com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher df;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             FileDataManager.setArguments(getFilesDir(), com.biggerbytes.scheduleupdates.serverdatarecievers.Constants.FILE_NAME);
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("3E5A459F6D56025BFD3350299B9A038F").build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         // force rtl layout
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private void initDataFetcher() {
         df = new com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher(new com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher.OnChangesReceivedListener() {
             @Override
-            public void onChangesReceived(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> data) {
+            public void onChangesReceived(ArrayList<ScheduleChange> data) {
                 Log.v(TAG, "d is null: " + (data == null));
                 if (data != null && data.size() > 0) {
 
@@ -228,15 +228,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * removes the duplicates from the changes array list
      */
-    public void removeDuplicates(ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> changes) {
-        Collections.sort(changes, new Comparator<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>() {
+    public void removeDuplicates(ArrayList<ScheduleChange> changes) {
+        Collections.sort(changes, new Comparator<ScheduleChange>() {
             @Override
-            public int compare(com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange lhs, com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange rhs) {
+            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
                 return lhs.getTeacherName().compareTo(rhs.getTeacherName());
             }
         });
         Log.v(TAG, "Changes has " + changes.size());
-        List<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange> removeList = new ArrayList<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>();
+        List<ScheduleChange> removeList = new ArrayList<ScheduleChange>();
         for (int i = 0; i < changes.size() - 1; ++i) {
             String hour = changes.get(i).getHour();
             for (int j = i + 1; j < changes.size(); ++j) {
@@ -254,11 +254,27 @@ public class MainActivity extends AppCompatActivity {
             changes.remove(removeList.get(i));
             Log.v(TAG, "Changes has " + changes.size());
         }
-        Collections.sort(changes, new Comparator<com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange>() {
+        Collections.sort(changes, new Comparator<ScheduleChange>() {
             @Override
-            public int compare(com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange lhs, com.biggerbytes.scheduleupdates.serverdatarecievers.ScheduleChange rhs) {
-                return lhs.getDate().toString().compareTo(rhs.getDate().toString());
+            public int compare(ScheduleChange lhs, ScheduleChange rhs) {
+                String[][] props = new String[][] {lhs.getDate().split("\\."), rhs.getDate().split("\\.")};
+                Log.d(TAG, lhs.getDate());
+                Log.d(TAG, rhs.getDate());
+
+
+                for (int i = 2; i > 0; i--) {
+                    Log.d(TAG, "Checking between " + props[0][i] + " and " + props[1][i] + ", result is " + props[0][i].compareTo(props[1][i]));
+                    int diff = props[0][i].compareTo(props[1][i]);
+                    if (diff > 0)
+                        return 1;
+                    else if (diff < 0)
+                        return -1;
+                }
+
+                return props[0][0].compareTo(props[1][0]);
             }
+
+
         });
     }
 }

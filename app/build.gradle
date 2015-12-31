@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "21.1.2"
     defaultConfig {
-        applicationId "com.example.shachamginat.com.olympicat.scheduleupdates"
+        applicationId "com.biggerbytes.scheduleupdates"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
