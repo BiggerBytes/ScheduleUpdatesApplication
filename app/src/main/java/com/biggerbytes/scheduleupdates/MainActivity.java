@@ -28,6 +28,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ * The main activity of the application
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<ScheduleChange> changes;
@@ -36,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private com.biggerbytes.scheduleupdates.serverdatarecievers.DataFetcher df;
     private ProgressBar progressBar;
     private AdView adView;
-
+    // X1
     private RelativeLayout emptyView;
-
+    //X2
     private SharedPreferences sharedPreferences;
     private int userClass;
     private ChooseClassDialog chooseClassDialog;
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.about:
-                Toast.makeText(this, "תביאו לנו כסף יא עמלקים", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "אמ.. מה רושמים כאן? הא כן, תודה לאורן ♥", Toast.LENGTH_SHORT).show();
                 break;
 
         }

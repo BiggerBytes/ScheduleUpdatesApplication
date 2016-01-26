@@ -9,7 +9,10 @@ import java.util.ArrayList;
 
 /**
  * Created by OrenUrbach on 10/2/15.
- * Fetches the data from Avishay's server
+ * Using the ScheduleDataFactory class, will pull all the schedule-changes data using a separate thread.
+ *
+ * @see android.os.AsyncTask
+ * @see ScheduleDataFactory
  */
 public class DataFetcher extends AsyncTask<Integer, Void, ArrayList<ScheduleChange>> {
 

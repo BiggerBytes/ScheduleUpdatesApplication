@@ -8,6 +8,9 @@ import java.util.Arrays;
 
 /**
  * Created by shachamginat on 10/10/2015.
+ * @author Shacham Ginat The Wise - pussySlay3r_742
+ *
+ * Pulls all the latest schedule-changes data over from the server.
  */
 public class ScheduleDataFactory {
 
@@ -19,6 +22,12 @@ public class ScheduleDataFactory {
     }
 
 
+    /**
+     * Fetches the data from the server.
+     *
+     * @return A list which contains all the schedule changes data
+     * @throws Exception
+     */
     public ArrayList<ScheduleChange> getData() throws Exception {
         //  Opening socket to server
         Socket socket = null;

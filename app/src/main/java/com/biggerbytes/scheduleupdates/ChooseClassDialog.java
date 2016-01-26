@@ -12,7 +12,11 @@ import android.util.Log;
 import com.biggerbytes.scheduleupdate.R;
 
 /**
+ *  A dialog that let's users pick/change their registered school classes.
+ *  Will determine the schedule changes they receive.
+ *
  * Created by OrenUrbach on 10/9/15.
+ * @author Shacham Ginat
  */
 public class ChooseClassDialog extends DialogFragment {
     private OnDialogFinishListener listener;
@@ -23,6 +27,10 @@ public class ChooseClassDialog extends DialogFragment {
         super();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // get shared preferences
@@ -52,12 +60,15 @@ public class ChooseClassDialog extends DialogFragment {
     }
 
     /**
-     * listener
+     * {@inheritDoc}
      */
     public void setOnDialogFinishListener(OnDialogFinishListener listener) {
         this.listener = listener;
     }
 
+    /**{@inheritDoc}
+     *
+     */
     public interface OnDialogFinishListener {
         void onFinish(int classId);
     }

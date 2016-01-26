@@ -37,6 +37,11 @@ public class AutomaticDataRefresher extends IntentService {
         super(TAG);
     }
 
+
+    /**
+     * Notifies the user over a submitted scheduele change.
+     *
+     */
     public void notifyUserOverScheduleChanges() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_schedule_white_48dp)
@@ -55,6 +60,12 @@ public class AutomaticDataRefresher extends IntentService {
 
     }
 
+    /**
+     *
+     * Runs in the background and re-downloads all the schedule changes in a constant interval.<br>
+     *               notifies user over a new schedule change.
+     * @param intent The service intent - allows the method to run in an interval in the background.
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "Doing a data refreshment!");
@@ -96,6 +107,11 @@ public class AutomaticDataRefresher extends IntentService {
         }
     }
 
+    /**
+     *  A method used to kick-start the service, to have it working in an interval.
+     * @param context
+     * @param isOn determines whether or not to turn on the notifications over schedule changes
+     */
     public static void setServiceAlarm(Context context, boolean isOn) {
         Log.d(TAG, "Fuggin message");
 
